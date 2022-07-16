@@ -57,6 +57,15 @@ export const ExerciseSteps = {
   Minutes: 3
 }
 
+export const exerciseMinutes = {
+  '30':'30분',
+  '60':'1시간',
+  '90':'1시간 반',
+  '120':'2시간',
+  '150':'2시간 반',
+  '180':'3시간',
+}
+
 export default {
   name: 'ExerciseBottomSheet',
   props: {
@@ -86,14 +95,7 @@ export default {
         '기타'
       ],
       exerciseLevels: ['저강도','중강도','고강도'],
-      exerciseMinutes: {
-        '30':'30분',
-        '60':'1시간',
-        '90':'1시간 반',
-        '120':'2시간',
-        '150':'2시간 반',
-        '180':'3시간',
-      },
+      exerciseMinutes: exerciseMinutes,
       selectExercise: {}
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="daily-add-page">
     <nav class="navbar navbar-light bg-primary">
-      <div class="container d-block">
+      <div class="container d-block p-0">
         <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
           <i class="mdi mdi-arrow-left"></i>
           <span class="ml-3">
@@ -40,11 +40,11 @@
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-6 col-form-label">
+            <label class="col-md-6 col-form-label">
               <i class="mdi mdi-weight-kilogram"></i>
               체중 <small>(변화가 있다면 수정해 주세요)</small>
             </label>
-            <div class="col-6">
+            <div class="col-md-6 col-6 ml-auto">
               <div class="row">
                 <div class="col-8 pr-1">
                   <input type="number" class="form-control underline text-center" v-model.trim="inputWeight">
@@ -130,7 +130,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row mb-5">
             <div class="col-6 pr-1">
               <button type="button" class="btn btn-block btn-secondary">
                 <i class="mdi mdi-close"></i> 취소
@@ -151,7 +151,7 @@
 
 <script>
 import ExerciseBottomSheet from './vues/ExerciseBSheet.vue'
-
+import { exerciseMinutes } from './vues/ExerciseBSheet.vue'
 export default {
   name: 'DailyAddPage',
   components: {
@@ -159,7 +159,8 @@ export default {
   },
   data() {
     return {
-      inputDate: null,      
+      inputDate: null,  
+      exerciseMinutes: exerciseMinutes,    
       smokeOption: {
         '0':'피우지 않음',
         '10':'반갑 (10 개비)',

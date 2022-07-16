@@ -2,20 +2,22 @@
   <div class="card mb-2" :class="{'success': payload.success}">
     <div class="card-header no-border">
       <div class="row">
-        <div class="col-8 text-left">          
-          <strong>{{ $Utils.dateFormat(new Date(payload.date), 'yyyy.MM.dd') }}</strong>
-          <small>
-            ({{ $Utils.dayOfWeek(new Date(payload.date)) }})
-          </small>
+        <div class="col-6 text-left">          
+          <strong>{{ $Utils.dateFormat(new Date(payload.date), 'M') }}</strong><small>월 </small>
+          <strong>{{ $Utils.dateFormat(new Date(payload.date), 'd') }}</strong><small>일</small>
+          ( {{ $Utils.dayOfWeek(new Date(payload.date)) }} )
         </div>
-        <div class="col-4 text-right">          
-          <span v-if="payload.success" class="flag success">
-            <i class="mdi mdi-check"></i>
-            미션성공
-          </span>
-          <span class="flag" v-else>
-            남은 미션 {{ missionCount.total - missionCount.success }}
-          </span>
+        <div class="col-6 text-right">          
+          <small v-if="payload.success">
+            <i class="mdi mdi-check-all"></i>
+            목표 달성!
+          </small>
+          <small v-else>
+            남은 목표 <strong class="text-primary">{{ missionCount.total - missionCount.success }}</strong>개
+            <span class="badge badge-danger ml-1" style="border-radius: 20px; padding: 0.25rem 0.5rem;">
+              
+            </span>
+          </small>
         </div>
       </div>
     </div>
@@ -80,7 +82,7 @@ export default {
         },
         miband: {
           name: '미밴드 데이터',
-          icon: 'mdi mdi-watch-export'
+          icon: 'mdi mdi-watch'
         }
       }
       return Object.keys(dataMap).reduce((acc, item)=>{
@@ -111,29 +113,15 @@ export default {
 <style lang="scss" scoped>
 .card{
   border-radius: 10px !important;
-  border: 0 !important;
-  .flag{
-    display: flex;
-    border-radius: 20px;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    font-size: .75rem;
-    background-color: #ddd;    
-    &.success{
-      background-color: white;
-      color: $success;
-    }
-  }
-  &.success{
-    color: white;
+  border: 0 !important;    
+  &.success{    
     background-color: $success;  
     .card-header{
       border: 0;
     }  
     .card-body{
       .btn.success{
-        color: white;
+        color: $dark;
       }
     }
   }
@@ -147,21 +135,6 @@ export default {
       &.success{
         color: $success;
       }
-    }
-    
-    .card-mask{
-      position: absolute;
-      display: flex;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(255, 255, 255, .8);
-      justify-content: center;
-      align-items: center;
-      border-radius: 20px;
-      color: $gray-600;
-      font-weight: 700;
     }
   }
 }

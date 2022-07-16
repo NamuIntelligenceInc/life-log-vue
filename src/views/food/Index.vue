@@ -1,9 +1,9 @@
 <template>
-  <div class="food-page bg-primary" :style="{minHeight: `${screenHeight}px`}">
+  <div class="food-page">
      <nav class="navbar navbar-light bg-primary fixed-top">
-      <div class="container d-block">
+      <div class="container d-block p-0">
         <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
+          <div class="col-md-6 ml-auto mr-auto p-0">
             <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
               <i class="mdi mdi-arrow-left"></i>
               <span class="ml-3" v-if="inputDate">
@@ -29,7 +29,7 @@
                     먹지 않음
                   </div>
                   <div v-else>
-                    <router-link v-if="value.foods.length > 0" :to="`/food/${inputDate}/add/${value.name}`" type="button" class="btn btn-sm btn-primary btn-rounded">
+                    <router-link v-if="value.foods.length > 0" :to="`/food/${inputDate}/add/${value.name}`" type="button" class="btn btn-sm btn-success btn-rounded text-dark">
                       <i class="mdi mdi-plus"></i> 메뉴수정
                     </router-link>                  
                   </div>
@@ -38,10 +38,10 @@
             </div>                        
             <div class="card-body pt-0" v-if="value.foods">
               <div v-if="value.foods.length == 0">
-                <button type="button" class="btn btn-sm btn-block btn-secondary mb-1" @click="selectDoNotEat=value.name">
+                <button type="button" class="btn btn-block btn-secondary mb-1" @click="selectDoNotEat=value.name">
                   먹지 않았습니다
                 </button>
-                <router-link :to="`/food/${inputDate}/add/${value.name}`" type="button" class="btn btn-block btn-sm btn-success">
+                <router-link :to="`/food/${inputDate}/add/${value.name}`" type="button" class="btn btn-block btn-success text-dark">
                   메뉴를 추가하겠습니다
                 </router-link>                  
               </div>

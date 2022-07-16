@@ -1,4 +1,4 @@
-import { isValid, format, differenceInDays } from 'date-fns'
+import { isValid, format, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns'
 const koDays = ['일','월','화','수','목','금','토']
 import cloneDeep from 'lodash.clonedeep'
 export default {
@@ -18,5 +18,7 @@ export default {
     evt.target.value = value.slice(0, maxLen)
   },
   diffDays: differenceInDays,
+  diffHours: differenceInHours,
+  diffMins: differenceInMinutes,
   cloneObject: cloneDeep
 }

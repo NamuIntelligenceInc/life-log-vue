@@ -38,7 +38,7 @@
         </div>
       </div>      
     </nav>
-    <div class="pt-3 pb-3 mb-3" :style="{marginTop: `${navbarHeight}px`}">
+    <div class="pb-3 mb-3" :style="{marginTop: `${navbarHeight}px`}">
       <div class="container">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto p-0">
@@ -48,10 +48,18 @@
               <p>실패: 3일</p>
               <div class="row">
                 <div class="col-6">
-                  <h4>누적포인트 </h4>
+                  <div class="d-flex h-100 align-items-end">
+                    <h4>누적포인트 </h4>
+                  </div>
                 </div>
                 <div class="col-6 text-right">
-                  <h4>13,000</h4>
+                  <h2>
+                    <animated-number
+                      :value="'13000'"
+                      :round="1"
+                      :formatValue="$Utils.numberWithComma"
+                      :duration="500"/>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -72,13 +80,14 @@
 </template>
 
 <script>
-
+import AnimatedNumber from 'animated-number-vue'
 import { generatesDailyRows } from '@/assets/dummy.js'
 import DailyCard from './vues/DailyCard.vue'
 export default {
   name: 'HomePage',
   components: {
-    DailyCard
+    DailyCard,
+    AnimatedNumber
   },
   data() {
     return {

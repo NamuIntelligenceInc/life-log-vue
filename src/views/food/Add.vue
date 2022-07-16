@@ -1,23 +1,27 @@
 <template>
   <div class="food-page">
      <nav class="navbar navbar-light bg-primary">
-      <div class="container d-block">
-        <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
-          <i class="mdi mdi-arrow-left"></i>
-          <span class="ml-3" v-if="inputDate">
-            {{ $Utils.dateFormat(new Date(inputDate), 'yy.M.d') }} 
-            <span v-if="inputType">
-              {{ inputType }}
-            </span>
-            등록
-          </span>
-        </button>
+      <div class="container d-block p-0">
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto p-0">
+            <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
+              <i class="mdi mdi-arrow-left"></i>
+              <span class="ml-3" v-if="inputDate">
+                {{ $Utils.dateFormat(new Date(inputDate), 'yy.M.d') }} 
+                <span v-if="inputType">
+                  {{ inputType }}
+                </span>
+                등록
+              </span>
+            </button>
+          </div>
+        </div>        
       </div>
     </nav>
     <div class="container pt-3 pb-3">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">          
-          <search-input :placeholder="'음식명을 입력해 주세요'"/>
+          <search-input :placeholder="'음식명을 입력해 주세요'" @on-selected="onSelectedFood"/>
           <div v-if="Object.keys(choicedFoods).length > 0">
             <div class="card mb-3" v-for="(value, key) in choicedFoods" :key="key">
               <div class="card-body p-1">
@@ -35,7 +39,7 @@
                       <div class="col-xl-4 col-6">
                         <div class="d-flex w-100 h-100 align-items-center justify-content-center">
                           <span class="pl-3 pr-3 text-primary" style="width: 80px;">{{ value.amount }}</span>
-                          <small class="text-secondary">인분</small>
+                          <small>인분</small>
                         </div>
                       </div>
                       <div class="col-xl-3 col-6 text-right">
@@ -57,13 +61,13 @@
             음식명을 검색하여 추가해 주세요
           </div>
           <div class="row mt-5">
-            <div class="col-6">
-              <button type="button" class="btn btn-block btn-outline-secondary">
+            <div class="col-6 pr-1">
+              <button type="button" class="btn btn-block btn-secondary">
                 <i class="mdi mdi-close"></i> 취소
               </button>
             </div>
-            <div class="col-6">
-              <button type="button" class="btn btn-block btn-outline-primary" 
+            <div class="col-6 pl-1">
+              <button type="button" class="btn btn-block btn-success" 
                 :disabled="Object.keys(choicedFoods).length == 0" @click="onClickComplete()">
                 <i class="mdi mdi-check"></i> 완료
               </button>
@@ -88,11 +92,7 @@ export default {
     return {
       inputDate: null,
       inputType: null,
-      foodKeyword: null,      
-      searchResults: [
-        '자장면',
-        '소불고기볶음밥'
-      ],
+      foodKeyword: null,            
       choicedFoods: {
         '자장면': {
           name: '자장면',
@@ -149,6 +149,11 @@ export default {
     onClickComplete() {
       this.isCanRouteLeave = true
       this.$router.go(-1)
+    },
+    onSelectedFood(foodName) {
+      foodName = foodName.replace(/ /g, '')
+      if(this.choicedFoods[foodName]) return
+      this.$set(this.choicedFoods, foodName, {name: foodName, amount: 0.5})
     }
   },
   computed: {

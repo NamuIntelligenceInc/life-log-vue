@@ -1,4 +1,4 @@
-# daily-mission-vue
+# life-log-vue
 
 ## Project setup
 ```
