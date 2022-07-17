@@ -45,6 +45,11 @@ const routes = [
     name: 'MibandIndex',
     component: () => import('@/views/miband/Index.vue')
   },
+  {
+    path: '/mypage',
+    name: 'MypageIndex',
+    component: () => import('@/views/mypage/Index.vue')
+  },
   
 ]
 

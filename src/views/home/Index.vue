@@ -15,7 +15,7 @@
                   <router-link :to="'/'" class="btn text-white">
                     <i class="mdi mdi-help-circle"></i> <small>도움말</small>
                   </router-link>
-                  <router-link :to="'/'" class="btn text-white">
+                  <router-link :to="'/mypage'" class="btn text-white">
                     <i class="mdi mdi-account-circle"></i> <small>마이페이지</small>
                   </router-link>
                 </div>
@@ -27,7 +27,7 @@
                     <router-link :to="'/'" class="dropdown-item">
                       <i class="mdi mdi-help-circle"></i> <small>도움말</small>
                     </router-link>
-                    <router-link :to="'/'" class="dropdown-item">
+                    <router-link :to="'/mypage'" class="dropdown-item">
                       <i class="mdi mdi-account-circle"></i> <small>마이페이지</small>
                     </router-link>                    
                   </div>

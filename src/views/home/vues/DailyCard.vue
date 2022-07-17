@@ -133,7 +133,8 @@ export default {
     .btn{
       color: $gray-600;
       &.success{
-        color: $success;
+        color: $dark;
+        font-weight: 600;
       }
     }
   }

@@ -1,15 +1,20 @@
 <template>
   <div class="daily-add-page">
-    <nav class="navbar navbar-light bg-primary">
+    <nav class="navbar navbar-light bg-primary fixed-top">
       <div class="container d-block p-0">
-        <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
-          <i class="mdi mdi-arrow-left"></i>
-          <span class="ml-3">
-            {{ $Utils.dateFormat(new Date(inputDate), 'yy.M.d') }} 일일 데이터
-          </span>
-        </button>
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto p-0">
+            <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
+              <i class="mdi mdi-arrow-left"></i>
+              <span class="ml-3">
+                {{ $Utils.dateFormat(new Date(inputDate), 'yy.M.d') }} 일일 데이터
+              </span>
+            </button>
+          </div>
+        </div>        
       </div>
     </nav>
+    <div class="pt-5"></div>
     <div class="container pt-3 pb-3">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">
@@ -68,57 +73,65 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label class="col-12 col-form-label">
-              <i class="mdi mdi-weight-kilogram"></i>
-              음주량
-            </label>
-            <div class="col-12">
-              <div class="row mb-3" v-for="(value, key) in inputDrunk" :key="key">
-                <div class="col-6">
-                  <input type="text" class="form-control underline text-center bg-white" :value="`${key} ${value} 잔`" :readonly="true">
-                </div>
-                <div class="col-6">
+          </div>          
+          <div class="mb-5">
+            <div class="row mb-2">
+              <div class="col-8 col-form-label">
+                <i class="mdi mdi-bottle-wine-outline"></i>
+                음주를 하셨습니까?
+              </div>
+              <div class="col-4">
+                <select class="form-control underline" v-model="selectIsDrinking">
+                  <option v-for="(value, key) in $Constants.Selection.YN" :key="key" :value="value.val">
+                    {{ value.text }}
+                  </option>                  
+                </select>
+              </div>
+            </div>            
+            <div class="pt-3 pb-3" v-if="selectIsDrinking == $Constants.Selection.YN.Yes.val">
+              <div class="card mb-2" v-for="(value, key) in drinkingMap" :key="key">
+                <div class="card-body pt-1 pb-1 pl-2 pr-2">
                   <div class="row">
-                    <div class="col-6 pr-1">
-                      <button type="button" class="btn btn-outline-primary btn-block btn-rounded">
-                        <i class="mdi mdi-minus"></i>
-                      </button>
+                    <div class="col-9 text-left col-form-label">                      
+                      <div class="pl-3">
+                        <strong>{{ value.type }}</strong> <small>({{ $Constants.Options.DrinkAmt[value.amount] }})</small>
+                      </div>
                     </div>
-                    <div class="col-6 pl-1">
-                      <button type="button" class="btn btn-outline-primary btn-block btn-rounded">
-                        <i class="mdi mdi-plus"></i>
+                    <div class="col-3">
+                      <button type="button" class="btn btn-block" @click="$delete(drinkingMap, key)">
+                        <i class="mdi mdi-close-circle text-secondary"></i>
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>              
+              <button type="button" class="btn btn-sm btn-block btn-outline-primary" @click="showDrinkBSheet=true">
+                <i class="mdi mdi-plus"></i> 음주 추가
+              </button>
             </div>
           </div>
           <div class="mb-5">
             <div class="row mb-2">
-              <div class="col-6 col-form-label">
+              <div class="col-8 col-form-label">
                 <i class="mdi mdi-weight-lifter"></i>
-                운동량
+                운동을 하셨습니까?
               </div>
-              <div class="col-6">
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary btn-rounded" @click="showExerciseBottomSheet=true">
-                  <i class="mdi mdi-plus"></i> 운동추가
-                </button>
+              <div class="col-4">                
+                <select class="form-control underline" v-model="selectIsExercise">
+                  <option v-for="(value, key) in $Constants.Selection.YN" :key="key" :value="value.val">
+                    {{ value.text }}
+                  </option>
+                </select>
               </div>
-            </div>
-            <div class="p-3" v-if="Object.keys(exerciseMap).length == 0">
-              <div class="text-secondary text-center">
-                운동을 하셨다면 '+ 운동추가'<br>버튼을 눌러 추가해 주세요
-              </div>
-            </div>
-            <div class="pt-3 pb-3" v-else>
-              <div class="card mb-1" v-for="(value, key) in exerciseMap" :key="key">
+            </div>            
+            <div class="pt-3 pb-3" v-if="selectIsExercise == $Constants.Selection.YN.Yes.val">
+              <div class="card mb-2" v-for="(value, key) in exerciseMap" :key="key">
                 <div class="card-body pt-1 pb-1 pl-2 pr-2">
                   <div class="row">
                     <div class="col-9 text-left col-form-label">                      
-                      <strong>{{ value.type }}</strong> <small>({{ value.level }} {{ exerciseMinutes[value.min] }})</small>
+                      <div class="pl-3">
+                        <strong>{{ value.type }}</strong> <small>({{ value.level }} {{ exerciseMinutes[value.min] }})</small>
+                      </div>
                     </div>
                     <div class="col-3">
                       <button type="button" class="btn btn-block" @click="$delete(exerciseMap, key)">
@@ -128,11 +141,14 @@
                   </div>
                 </div>
               </div>
+              <button type="button" class="btn btn-sm btn-block btn-outline-primary" @click="showExcBSheet=true">
+                <i class="mdi mdi-plus"></i> 운동 추가
+              </button>
             </div>
           </div>
           <div class="row mb-5">
             <div class="col-6 pr-1">
-              <button type="button" class="btn btn-block btn-secondary">
+              <button type="button" class="btn btn-block btn-secondary" @click="$router.go(-1)">
                 <i class="mdi mdi-close"></i> 취소
               </button>
             </div>
@@ -145,66 +161,49 @@
         </div>
       </div>
     </div>   
-    <exercise-bottom-sheet :show="showExerciseBottomSheet" :selected-list="exerciseMap" @on-close="showExerciseBottomSheet=false" @on-complete="(data)=>{exerciseMap[data.type]=data;showExerciseBottomSheet=false}"/>
+    <exercise-bottom-sheet :show="showExcBSheet" :selected-list="exerciseMap" @on-close="showExcBSheet=false" @on-complete="(data)=>{exerciseMap[data.type]=data;showExcBSheet=false}"/>
+    <drink-bottom-sheet :show="showDrinkBSheet" :selected-list="drinkingMap" @on-close="showDrinkBSheet=false" @on-complete="(data)=>{drinkingMap[data.type]=data;showDrinkBSheet=false}"/>
   </div>
 </template>
 
 <script>
 import ExerciseBottomSheet from './vues/ExerciseBSheet.vue'
+import DrinkBottomSheet from './vues/DrinkBSheet.vue'
 import { exerciseMinutes } from './vues/ExerciseBSheet.vue'
 export default {
   name: 'DailyAddPage',
   components: {
-    ExerciseBottomSheet
+    ExerciseBottomSheet,
+    DrinkBottomSheet
   },
   data() {
     return {
       inputDate: null,  
       exerciseMinutes: exerciseMinutes,    
-      smokeOption: {
-        '0':'피우지 않음',
-        '10':'반갑 (10 개비)',
-        '20':'한갑 (20 개비)',
-        '30':'한갑 반 (30 개비)',
-        '40':'두갑 (40 개비)',
-      },
-      waterOption: {        
-        '250':'한 컵',
-        '500':'두 컵',
-        '500':'세 컵',
-        '750':'네 컵',
-      },
+      smokeOption: this.$Constants.Options.SmokingAmt,
+      waterOption: this.$Constants.Options.WaterAmt,
       inputMedicine: {
         '아침': false,
         '점심': false,
         '저녁': false
-      },
-      drunkTypes: ['소주','맥주','막걸리','양주'],
-      drunkAmounts: {
-        '0.5': '반병',
-        '1': '한병',
-        '1.5': '한병 반',
-        '2': '두병',
-        '2.5': '두병 반',
-        '3': '세병',
-        '3.5': '세병 반',
-        '4': '네병',
-        '4.5': '네병 반',
-        '5': '5병 이상',
       },      
-      inputDrunk: {
-        '소주': 0,
-        '맥주': 0
-      },
       inputSmoke: '10',
       inputWater: '250',
       inputWeight: '80',
-      showExerciseBottomSheet: false,
-      exerciseMap: {}
+      selectIsDrinking: this.$Constants.Selection.YN.No.val,
+      selectIsExercise: this.$Constants.Selection.YN.No.val,
+      showExcBSheet: false,
+      exerciseMap: {},
+      showDrinkBSheet: false,
+      drinkingMap: {}
     }
   },
   created() {
     this.inputDate = this.$route.params.date
+    console.log(this.selectIsDrinking)
+  },
+  watch: {
+    
   }
 }
 </script>

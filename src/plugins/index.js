@@ -3,6 +3,7 @@ import ConfirmModal from '@/components/modals/Confirm'
 import ProgressModal from '@/components/modals/Progress'
 import NavBottom from '@/components/NavBottom'
 import Utils from './utils'
+import Constants from './constants'
 
 export default {
   install(Vue) {    
@@ -11,5 +12,6 @@ export default {
     Vue.component('progress-modal', ProgressModal)
     Vue.component('nav-bottom', NavBottom)
     Vue.prototype.$Utils = Utils
+    Vue.prototype.$Constants = Constants
   }
 }
