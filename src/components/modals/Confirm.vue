@@ -14,13 +14,13 @@
           <div class="modal-footer d-block">
             <div class="row">
               <div class="col-md-4 col-6 ml-auto">
-                <button type="button" class="btn btn-sm btn-block text-secondary" @click="$emit('on-close')">
-                  <i class="mdi mdi-close"></i> 취소
+                <button type="button" class="btn btn-sm btn-block" @click="$emit('on-close')">
+                  <i class="mdi mdi-close"></i> <strong>취소</strong>
                 </button>
               </div>
               <div class="col-md-4 col-6 mr-auto">
                 <button type="button" class="btn btn-sm btn-block text-primary" @click="$emit('on-confirm')">
-                  <i class="mdi mdi-check"></i> 확인
+                  <i class="mdi mdi-check"></i> <strong>확인</strong>
                 </button>
               </div>
             </div>

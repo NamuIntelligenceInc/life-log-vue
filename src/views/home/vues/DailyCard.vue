@@ -2,28 +2,26 @@
   <div class="card mb-2" :class="{'success': payload.success}">
     <div class="card-header no-border">
       <div class="row">
-        <div class="col-6 text-left">          
-          <strong>{{ $Utils.dateFormat(new Date(payload.date), 'M') }}</strong><small>월 </small>
-          <strong>{{ $Utils.dateFormat(new Date(payload.date), 'd') }}</strong><small>일</small>
-          ( {{ $Utils.dayOfWeek(new Date(payload.date)) }} )
+        <div class="col-7 text-left pr-1">          
+          <strong>{{ $Utils.dateFormat(new Date(payload.target_dt), 'M') }}</strong><small>월 </small>
+          <strong>{{ $Utils.dateFormat(new Date(payload.target_dt), 'd') }}</strong><small>일</small>
+          ( {{ $Utils.dayOfWeek(new Date(payload.target_dt)) }} )
+          <span class="badge" v-if="diffDayTxt">{{ diffDayTxt  }}</span>
         </div>
-        <div class="col-6 text-right">          
-          <small v-if="payload.success">
-            <i class="mdi mdi-check-all"></i>
-            목표 달성!
-          </small>
-          <small v-else>
-            남은 목표 <strong class="text-primary">{{ missionCount.total - missionCount.success }}</strong>개
-            <span class="badge badge-danger ml-1" style="border-radius: 20px; padding: 0.25rem 0.5rem;">
-              
-            </span>
-          </small>
+        <div class="col-5 text-right pl-1">          
+          <span v-if="payload.success">
+            <i class="mdi mdi-check-all mr-1"></i>
+            <strong>목표 달성!</strong>
+          </span>
+          <span v-else>
+            <strong>남은 목표 <span class="text-primary">{{ missionCount.total - missionCount.success }}</span> 개</strong>
+          </span>
         </div>
       </div>
     </div>
     <div class="card-body p-0">
-      <router-link v-for="(value, key) in dataList" :key="`${payload.date}_${key}`" 
-        :to="`/${key}/${$Utils.dateFormat(new Date(payload.date), 'yyyy-MM-dd')}`" 
+      <router-link v-for="(value, key) in dataList" :key="`${payload.target_dt}_${key}`" 
+        :to="{path:`/${key}/add?date=${$Utils.dateFormat(new Date(payload.target_dt), 'yyyy-MM-dd')}`}" 
         class="btn btn-block mb-1" :class="{'success': value.success}">
         <div class="row">
           <div class="col-9 text-left">
@@ -47,13 +45,7 @@
 <script>
 export default {
   name: 'DailyCard',
-  props: {
-    date: {
-      type: Date,
-      default() {
-        return new Date()
-      }
-    },
+  props: {    
     payload: {
       type: Object,
       default() {
@@ -66,7 +58,7 @@ export default {
       
     }
   },
-  created() {
+  methods: {
     
   },
   computed: {
@@ -74,7 +66,7 @@ export default {
       const dataMap = {
         daily: {
           name: '일일 데이터',
-          icon: 'mdi mdi-calendar-check',          
+          icon: 'mdi mdi-calendar-check',         
         },
         food: {
           name: '식단 데이터',
@@ -105,7 +97,15 @@ export default {
       counting.success = successCount
       counting.total = dataKeys.length
       return counting
-    },    
+    },
+    diffDayTxt() {      
+      const diff = this.$Utils.diffDays(new Date(this.payload.target_dt), new Date())
+      const absNum = (diff < -3) ? null : Math.abs(diff)
+      if(!absNum) return null      
+      let bgCls = 'bg-primary'
+
+      return absNum
+    }    
   },  
 }
 </script>

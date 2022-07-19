@@ -104,8 +104,8 @@ export default {
     }
   },
   created() {
-    this.inputDate = this.$route.params.date
-    this.inputType = this.$route.params.type
+    this.inputDate = this.$route.query.date
+    this.inputType = this.$route.query.type
   },
   mounted() {
     

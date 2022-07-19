@@ -236,7 +236,7 @@ export default {
     }
   },
   created() {    
-    this.inputDate = this.$route.params.date
+    this.inputDate = this.$route.query.date
   },
   methods: {    
     onChangeInputFile(evt) {

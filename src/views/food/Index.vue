@@ -18,20 +18,20 @@
     <div class="container pt-3 pb-3">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">
-          <div class="card mb-3" v-for="(value, key) in foodData" :key="key">
+          <div class="card mb-3" v-for="(value, key) in dailyFood" :key="key">
             <div class="card-header bg-white no-border">
               <div class="row">
                 <div class="col-4 col-form-label">
-                  <strong>{{ value.name }} 식단</strong>
+                  <strong>{{ eatTypes[key] }} 식단</strong>
                 </div>
                 <div class="col-8 text-right">                                    
                   <div class="col-form-label text-secondary" v-if="!value.foods">
                     먹지 않음
                   </div>
                   <div v-else>
-                    <router-link v-if="value.foods.length > 0" :to="`/food/${inputDate}/add/${value.name}`" type="button" class="btn btn-sm btn-success btn-rounded text-dark">
+                    <!-- <router-link v-if="value.foods.length > 0" :to="`/food/menu?date=${inputDate}&type=${value.name}`" type="button" class="btn btn-sm btn-success btn-rounded text-dark">
                       <i class="mdi mdi-plus"></i> 메뉴수정
-                    </router-link>                  
+                    </router-link>                   -->
                   </div>
                 </div>
               </div>
@@ -41,7 +41,7 @@
                 <button type="button" class="btn btn-block btn-secondary mb-1" @click="selectDoNotEat=value.name">
                   먹지 않았습니다
                 </button>
-                <router-link :to="`/food/${inputDate}/add/${value.name}`" type="button" class="btn btn-block btn-success text-dark">
+                <router-link :to="`/food/menu?date=${inputDate}&type=${value.name}`" type="button" class="btn btn-block btn-success text-dark">
                   메뉴를 추가하겠습니다
                 </router-link>                  
               </div>
@@ -49,7 +49,8 @@
                 <div class="p-1 pl-3 pr-3" v-for="(item, index) of value.foods" :key="index">
                   <div class="row">
                     <div class="col-9">
-                      <i class="mdi mdi-subdirectory-arrow-right mr-2"></i>
+                      <!-- <i class="mdi mdi-subdirectory-arrow-right mr-2"></i> -->
+                      {{ index + 1 }}.
                       <strong>{{ item.name }}</strong>
                     </div>
                     <div class="col-3">
@@ -73,34 +74,14 @@ export default {
   data() {
     return {      
       inputDate: null,
-      foodData: {
-        morning: {
-          name: '아침',          
-          foods: [
-            {
-              name: '자장면',
-              amount: 1
-            }
-          ]
-        },
-        lunch: {
-          name: '점심',          
-          foods: []
-        },
-        dinner: {
-          name: '저녁',          
-          foods: []
-        },
-        snack: {
-          name: '간식',          
-          foods: []
-        }
-      },
+      eatTypes: this.$Constants.EatTypes,
+      dailyFood: null,
       selectDoNotEat: null
     }
   },
   created() {
-    this.inputDate = this.$route.params.date
+    this.inputDate = this.$route.query.date
+    this.loadDailyFoods()
   },
   mounted() {
     
@@ -109,6 +90,13 @@ export default {
     onDoNotEat() {
       this.selectDoNotEat = null
       this.foodData.lunch.foods = null
+    },
+    async loadDailyFoods() {
+      let response = await this.$Api.post('/api/attains', {date: this.inputDate})
+      const attainId = response.attain_id
+      response = await this.$Api.get(`/api/attains/${attainId}/foods`) 
+      this.dailyFood = response.daily_food
+      console.log(this.dailyFood)
     }
   },
   computed: {

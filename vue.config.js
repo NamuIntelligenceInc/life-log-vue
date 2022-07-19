@@ -21,10 +21,7 @@ let vueConfig = {
     proxy: {
       '/api': {
         target: 'http://localhost:3000'
-      },
-      '/files': {
-        target: 'http://localhost:3000'
-      }        
+      },      
     }
   }  
 }

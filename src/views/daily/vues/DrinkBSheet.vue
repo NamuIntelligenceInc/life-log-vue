@@ -1,5 +1,5 @@
 <template>
-  <div class="exercise-selection fixed-bottom" :class="{'show': show}">
+  <div class="drinking-selection bottom-sheets fixed-bottom" :class="{'show': show}">
       <div class="container p-0">
         <div class="card">
           <div class="card-header bg-primary">
@@ -24,14 +24,14 @@
           </div>
           <div class="card-body" style="height: 300px; overflow: auto;">
             <div v-if="currDrinkStep == DrinkSteps.Type">
-              <button type="button" class="btn btn-block" :class="{'text-success': selectedList[item]}" v-for="(item, index) of drinkTypes" :key="index" :disabled="selectedList[item]" @click="selectDrink.type = item; currDrinkStep=DrinkSteps.Amount">
-                <i v-if="selectedList[item]" class="mdi mdi-check"></i>
-                {{ item }}
+              <button type="button" class="btn btn-block" :class="{'text-primary': selectedList[item]}" v-for="(item, index) of drinkTypes" :key="index" :disabled="selectedList[item]" @click="selectDrink.type = item; currDrinkStep=DrinkSteps.Amount">
+                <i v-if="selectedList[item]" class="mdi mdi-check-bold"></i>
+                <strong>{{ item }}</strong>
               </button>
             </div>
             <div v-else>
               <button type="button" class="btn btn-block" v-for="(item, index) in drunkAmount" :key="index" @click="selectDrink.amount = Number(item.amount); $emit('on-complete', selectDrink)">
-                {{ item.name }}
+                <strong>{{ item.name }}</strong>
               </button>
             </div>            
           </div>

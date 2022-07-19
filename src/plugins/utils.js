@@ -20,5 +20,13 @@ export default {
   diffDays: differenceInDays,
   diffHours: differenceInHours,
   diffMins: differenceInMinutes,
-  cloneObject: cloneDeep
+  cloneObject: cloneDeep,
+  reverseKeyValue(obj) { 
+    let resultObj = cloneDeep(obj)
+    return Object.keys(resultObj).reduce((acc, item)=>{
+      const value = resultObj[item]
+      acc[value] = item
+      return acc
+    }, {})
+  }
 }

@@ -4,7 +4,7 @@ import ProgressModal from '@/components/modals/Progress'
 import NavBottom from '@/components/NavBottom'
 import Utils from './utils'
 import Constants from './constants'
-
+import { Api } from './http'
 export default {
   install(Vue) {    
     Vue.component('alert-modal', AlertModal)
@@ -13,5 +13,6 @@ export default {
     Vue.component('nav-bottom', NavBottom)
     Vue.prototype.$Utils = Utils
     Vue.prototype.$Constants = Constants
+    Vue.prototype.$Api = Api
   }
 }

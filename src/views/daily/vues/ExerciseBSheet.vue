@@ -1,5 +1,5 @@
 <template>
-  <div class="exercise-selection fixed-bottom" :class="{'show': show}">
+  <div class="exercise-selection bottom-sheets fixed-bottom" :class="{'show': show}">
       <div class="container p-0">
         <div class="card">
           <div class="card-header bg-primary">
@@ -29,19 +29,19 @@
           </div>
           <div class="card-body" style="height: 300px; overflow: auto;">
             <div v-if="currExStep == ExerciseSteps.Type">
-              <button type="button" class="btn btn-block" :class="{'text-success': selectedList[item]}" v-for="(item, index) of exerciseTypes" :key="index" :disabled="selectedList[item]" @click="selectExercise.type = item; currExStep=ExerciseSteps.Level">
-                <i v-if="selectedList[item]" class="mdi mdi-check"></i>
-                {{ item }}
+              <button type="button" class="btn btn-block" :class="{'text-primary': selectedList[item]}" v-for="(item, index) of exerciseTypes" :key="index" :disabled="selectedList[item]" @click="selectExercise.type = item; currExStep=ExerciseSteps.Level">
+                <i v-if="selectedList[item]" class="mdi mdi-check-bold"></i>
+                <strong>{{ item }}</strong>
               </button>
             </div>
             <div v-if="currExStep == ExerciseSteps.Level">
               <button type="button" class="btn btn-block" v-for="(item, index) of exerciseLevels" :key="index" @click="selectExercise.level = item; currExStep=ExerciseSteps.Minutes">
-                {{ item }}
+                <strong>{{ item }}</strong>
               </button>
             </div>
             <div v-if="currExStep == ExerciseSteps.Minutes">
               <button type="button" class="btn btn-block" v-for="(value, key) of exerciseMinutes" :key="key" @click="selectExercise.min = key; $emit('on-complete', selectExercise)">
-                {{ value }}
+                <strong>{{ value }}</strong>
               </button>
             </div>
           </div>
@@ -55,15 +55,6 @@ export const ExerciseSteps = {
   Type: 1,
   Level: 2,
   Minutes: 3
-}
-
-export const exerciseMinutes = {
-  '30':'30분',
-  '60':'1시간',
-  '90':'1시간 반',
-  '120':'2시간',
-  '150':'2시간 반',
-  '180':'3시간',
 }
 
 export default {
@@ -84,18 +75,9 @@ export default {
     return {
       ExerciseSteps: ExerciseSteps,
       currExStep: ExerciseSteps.Type,
-      exerciseTypes: [
-        '걷기, 달리기',
-        '수영',
-        '웨이트(근력운동)',
-        '요가,필라테스',
-        '사이클(자전거)',
-        '골프 등 정적 스포츠',
-        '배드민턴 등 동적 스포츠',
-        '기타'
-      ],
-      exerciseLevels: ['저강도','중강도','고강도'],
-      exerciseMinutes: exerciseMinutes,
+      exerciseTypes: this.$Constants.Options.ExerciseTypes,
+      exerciseLevels: this.$Constants.Options.ExerciseLevels,
+      exerciseMinutes: this.$Constants.Options.ExerciseMinutes,
       selectExercise: {}
     }
   },
@@ -115,3 +97,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>

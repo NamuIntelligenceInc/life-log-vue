@@ -15,7 +15,7 @@
             <div class="row">
               <div class="col-md-4 ml-auto mr-auto">
                 <button type="button" class="btn btn-sm btn-block text-success" @click="$emit('on-confirm')">
-                  <i class="mdi mdi-check"></i> 확인
+                  <i class="mdi mdi-check"></i> <strong>확인</strong>
                 </button>
               </div>
             </div>
