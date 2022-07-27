@@ -15,56 +15,54 @@
       </div>
     </nav>
     <div class="container pt-5 pb-5">
-      <div class="row">
-        <div class="col-md-6 ml-auto mr-auto">
-          <div class="card mb-3">
-            <div class="card-header bg-white">
-              <i class="mdi mdi-account-outline"></i>
-              프로필
+      <div class="row" v-if="userProfile">
+        <div class="col-md-6 ml-auto mr-auto">          
+          <div class="row mb-2">
+            <label class="col-3 col-form-label">
+              이름
+            </label>
+            <div class="col-9 col-form-label">
+              {{ userProfile.name }}
             </div>
-            <div class="card-body">
-              <div class="row mb-2">
-                <label class="col-3 col-form-label font-weight-bolder">
-                  이름
-                </label>
-                <div class="col-9 col-form-label">
-                  서강민
-                </div>
-              </div>
-              <div class="row mb-2">
-                <label class="col-3 col-form-label font-weight-bolder">
-                  생년월일
-                </label>
-                <div class="col-9 col-form-label">
-                  1986.3.19 <small>(만 35세)</small>
-                </div>
-              </div>
+          </div>          
+          <div class="row mb-2">
+            <label class="col-3 col-form-label">
+              생년월일
+            </label>
+            <div class="col-9 col-form-label">
+              {{ $Utils.dateFormat(new Date(userProfile.birth), 'yyyy.M.d') }}
             </div>
           </div>
-          <div class="card mb-3">
-            <div class="card-header bg-white">
-              <i class="mdi mdi-account-check-outline"></i>
-              기본정보
+          <div class="row mb-2">
+            <label class="col-3 col-form-label">
+              아이디
+            </label>
+            <div class="col-9 col-form-label">
+              {{ userProfile.login_id }}
             </div>
-            <div class="card-body">
-              <div class="row mb-2">
-                <label class="col-3 col-form-label font-weight-bolder">
-                  평균 흡연량
-                </label>
-                <div class="col-9">
-                  <select class="form-control underline">
-
-                  </select>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <label class="col-3 col-form-label font-weight-bolder">
-                  생년월일
-                </label>
-                <div class="col-9 col-form-label">
-                  1986.3.19 <small>(만 35세)</small>
-                </div>
-              </div>
+          </div>          
+          <div class="row mb-2">
+            <label class="col-6 col-form-label">
+              평균 흡연량
+            </label>
+            <div class="col-6">
+              <select class="form-control underline" v-model="formData.smoking_amt">
+                <option v-for="(value, key) in $Constants.Options.SmokingAmt" :key="key" :value="key">
+                  {{ value }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-6 col-form-label">
+              평균 물섭취량
+            </label>
+            <div class="col-6">
+              <select class="form-control underline" v-model="formData.water_amt">
+                <option v-for="(value, key) in $Constants.Options.WaterAmt" :key="key" :value="key">
+                  {{ value }} ({{ key }}ml)
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -78,8 +76,25 @@ export default {
   name: 'MypageIndexPage',
   data() {
     return {
-
+      formData: {
+        smoking_amt: '',
+        water_amt: ''
+      }
     }
+  },
+  created() {    
+    this.formData = {
+      smoking_amt: this.userProfile.daily_smoking_amt,
+      water_amt: this.userProfile.daily_water_amt
+    }
+  },
+  computed: {
+    userProfile() {
+      return this.$store.getters['getUserProfile']
+    }
+  },
+  watch: {
+    
   }
 }
 </script>

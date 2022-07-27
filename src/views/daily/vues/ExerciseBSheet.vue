@@ -40,7 +40,7 @@
               </button>
             </div>
             <div v-if="currExStep == ExerciseSteps.Minutes">
-              <button type="button" class="btn btn-block" v-for="(value, key) of exerciseMinutes" :key="key" @click="selectExercise.min = key; $emit('on-complete', selectExercise)">
+              <button type="button" class="btn btn-block" v-for="(value, key) of exerciseMinutes" :key="key" @click="selectExercise.mins = key; $emit('on-complete', selectExercise)">
                 <strong>{{ value }}</strong>
               </button>
             </div>

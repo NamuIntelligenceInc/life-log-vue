@@ -15,7 +15,7 @@
                 <i class="mdi mdi-account-outline"></i>
               </span>
             </div>
-            <input type="text" class="form-control no-border text-center" v-model.trim="inputId" placeholder="연락처를 입력해 주세요" maxlength="11">
+            <input type="text" class="form-control no-border text-center" v-model.trim="inputId" placeholder="연락처를 입력해 주세요">
           </div>
 
           <div class="input-group mb-5">
@@ -64,8 +64,7 @@ export default {
         login_id: this.inputId,
         login_pwd: this.inputPwd
       }
-      let response = await this.$Api.get('/api/users/signin', {params: reqParams})
-      console.log(response)
+      let response = await this.$Api.get('/api/users/signin', {params: reqParams})      
       if(!response.success){
         this.$toasted.error(response.message)
         return

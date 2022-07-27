@@ -20,3 +20,4 @@ export const generatesDailyRows = (dateList)=>{
     return acc
   }, {})
 }
+

@@ -6,8 +6,8 @@
           <div class="col-md-6 ml-auto mr-auto p-0">
             <button type="button" class="btn text-left text-white" @click="$router.push('/home')">
               <i class="mdi mdi-arrow-left"></i>
-              <span class="ml-3">
-                {{ $Utils.dateFormat(new Date(inputDate), 'yy.M.d') }} 일일 데이터
+              <span class="ml-3" v-if="dailyData">
+                {{ $Utils.dateFormat(new Date(dailyData.target_dt), 'yyyy.M.d') }} 일일 데이터
               </span>
             </button>
           </div>
@@ -15,11 +15,15 @@
       </div>
     </nav>
     <div class="pt-5"></div>
-    <div class="pt-5 pb-5 text-center" v-if="!dailyData">
-      <i class="mdi mdi-loading mdi-spin text-primary"></i>
-    </div>
-    <detail-page v-else-if="dailyData.pid" :payload="dailyData"/>
-    <add-page v-else :date="inputDate" @on-reload="loadDailyInput()"/>    
+    <div>
+      <div class="pt-5 pb-5 text-center" v-if="!dailyData">
+        <i class="mdi mdi-loading mdi-spin text-primary"></i>
+      </div>
+      <div v-else>
+        <detail-page v-if="dailyData.daily_id" :payload="dailyData"/>
+        <add-page v-else :attain-id="Number(attainId)" :date="dailyData.target_dt" @on-reload="loadDailyInput()"/>    
+      </div>      
+    </div>    
   </div>
 </template>
 
@@ -34,19 +38,17 @@ export default {
   },
   data() {
     return {
-      inputDate: null,      
+      attainId: null,          
       dailyData: null
     }
   },
   created() {
-    this.inputDate = this.$route.query.date
+    this.attainId = this.$route.params.attainId    
     this.loadDailyInput()
   },
   methods: {
-    async loadDailyInput() {
-      let response = await this.$Api.post('/api/attains', {date: this.inputDate})
-      const attainId = response.attain_id      
-      response = await this.$Api.get(`/api/attains/${attainId}/daily`)      
+    async loadDailyInput() {      
+      let response = await this.$Api.get(`/api/attains/${this.attainId}/daily`)            
       this.dailyData = response.daily || {}      
     },        
   }

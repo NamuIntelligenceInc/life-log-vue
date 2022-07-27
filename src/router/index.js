@@ -1,19 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import StartPage from '@/views/Start.vue'
+import HomeIndexPage from '@/views/home/Index.vue'
+import SigninPage from '@/views/users/Signin.vue'
+import DailyIndexPage from '@/views/daily/Index.vue'
+import FoodIndexPage from '@/views/food/Index.vue'
+import FoodAddPage from '@/views/food/Add.vue'
+import MypageIndexPage from '@/views/mypage/Index.vue'
+import AuthenticatePage from '@/views/Authenticate.vue'
+import ErrorPage from '@/views/Error.vue'
 
 Vue.use(VueRouter)
 
 const userAuthenticate = (to, from , next)=> {
-  const userInfo = store.state.user_profile
-  const token = window.$cookies.get('token')  
-  if(!token) {
-    next({path: '/signin', query: {redirect: to.fullPath}})
-  }else if(!userInfo) {
+  const userProfile = store.state.user_profile
+  if(!userProfile){
     next({path: '/authenticate', query: {redirect: to.fullPath}})
   }else{
     next()
-  }
+  }  
 }
 
 
@@ -22,54 +28,89 @@ const routes = [
     path: '/',
     name: 'Index',
     beforeEnter: (to, from, next) => {
-      next('/home')
+      const userProfile = store.state.user_profile      
+      if(!userProfile){
+        next({path: '/authenticate', query: {redirect: '/home'}})
+      }else{
+        next({path: '/home'})
+      }      
     },
-  },,
+  },
+  {
+    path: '/start',
+    name: 'Start',
+    component: StartPage,
+    beforeEnter(to, from , next) {
+      const userProfile = store.state.user_profile
+      const token = window.$cookies.get('token')
+      if(!token) {
+        next({path: '/signin'})
+      }else if(!userProfile) {
+        next({path: '/authenticate', query: {redirect: to.fullPath}})
+      }else{
+        if(userProfile.start_dt) {
+          next({path: '/home'})
+        }else{
+          next()
+        }
+      }
+    }
+  },
   {
     path: '/home',
     name: 'Home',
-    component: () => import('@/views/home/Index.vue'),
-    beforeEnter: userAuthenticate
+    component: HomeIndexPage,
+    beforeEnter(to, from , next) {
+      const userProfile = store.state.user_profile
+      if(!userProfile){
+        next({path: '/authenticate', query: {redirect: to.fullPath}})
+      }else{
+        if(!userProfile.start_dt){
+          next({path: '/start'})
+        }else{
+          next()
+        }
+      }        
+    }
   },
   {
     path: '/signin',
     name: 'Signin',
-    component: () => import('@/views/users/Signin.vue')
+    component: SigninPage
   },  
   {
-    path: '/daily/add',
+    path: '/daily/:attainId(\\d+)',
     name: 'DailyIndex',
-    component: () => import('@/views/daily/Index.vue'),
+    component: DailyIndexPage,
     beforeEnter: userAuthenticate
   },
   {
-    path: '/food/add',
+    path: '/food/:attainId(\\d+)',
     name: 'FoodsIndex',
-    component: () => import('@/views/food/Index.vue'),
+    component: FoodIndexPage,
     beforeEnter: userAuthenticate
   },
   {
     path: '/food/menu',
     name: 'FoodsAdd',
-    component: () => import('@/views/food/Add.vue'),
+    component: FoodAddPage,
     beforeEnter: userAuthenticate   
-  },
-  {
-    path: '/miband/:date',
-    name: 'MibandIndex',
-    component: () => import('@/views/miband/Index.vue'),
-    beforeEnter: userAuthenticate
-  },
+  },  
   {
     path: '/mypage',
     name: 'MypageIndex',
-    component: () => import('@/views/mypage/Index.vue'),
+    component: MypageIndexPage,
     beforeEnter: userAuthenticate
   },
   {
     path: '/authenticate',
     name: 'Authenticate',
-    component: () => import('@/views/Authenticate.vue')    
+    component: AuthenticatePage
+  },
+  {
+    path: '/error/:errCode',
+    name: 'Error',
+    component: ErrorPage
   },
 ]
 

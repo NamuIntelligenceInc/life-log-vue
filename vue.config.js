@@ -7,6 +7,11 @@ const buildConfig = () => {
 }
 
 let vueConfig = {
+  configureWebpack: {
+    output: {
+      filename: `app-${new Date().getTime()}.js`
+    },
+  },
   css: {
     loaderOptions: {
       sass: {

@@ -4,10 +4,10 @@
       <div class="container d-block p-0">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto p-0">
-            <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
+            <button type="button" class="btn text-left text-white" @click="$router.push('/home')">
               <i class="mdi mdi-arrow-left"></i>
-              <span class="ml-3" v-if="inputDate">
-                {{ $Utils.dateFormat(new Date(inputDate), 'yyyy.M.d') }} 식단 데이터
+              <span class="ml-3" v-if="dailyFood">
+                {{ $Utils.dateFormat(new Date(dailyFood.target_dt), 'yyyy.M.d') }} 식단 데이터
               </span>
             </button>
           </div>
@@ -16,55 +16,53 @@
     </nav>
     <div class="pt-5"></div>
     <div class="container pt-3 pb-3">
-      <div class="row">
+      <div class="row" v-if="dailyFood">
         <div class="col-md-6 ml-auto mr-auto">
-          <div class="card mb-3" v-for="(value, key) in dailyFood" :key="key">
+          <div class="card mb-3" v-for="(value, key) in dailyFood.items" :key="key">
             <div class="card-header bg-white no-border">
               <div class="row">
                 <div class="col-4 col-form-label">
                   <strong>{{ eatTypes[key] }} 식단</strong>
                 </div>
                 <div class="col-8 text-right">                                    
-                  <div class="col-form-label text-secondary" v-if="!value.foods">
+                  <div class="col-form-label text-danger" v-if="value.is_eating == 0">
                     먹지 않음
-                  </div>
-                  <div v-else>
-                    <!-- <router-link v-if="value.foods.length > 0" :to="`/food/menu?date=${inputDate}&type=${value.name}`" type="button" class="btn btn-sm btn-success btn-rounded text-dark">
-                      <i class="mdi mdi-plus"></i> 메뉴수정
-                    </router-link>                   -->
-                  </div>
+                  </div>                  
                 </div>
               </div>
             </div>                        
-            <div class="card-body pt-0" v-if="value.foods">
-              <div v-if="value.foods.length == 0">
-                <button type="button" class="btn btn-block btn-secondary mb-1" @click="selectDoNotEat=value.name">
+            <div class="card-body pt-0" v-if="value.is_eating == null">
+              <div v-if="value.items.length == 0">
+                <button type="button" class="btn btn-block btn-secondary mb-1" @click="selectDoNotEat=key">
                   먹지 않았습니다
                 </button>
-                <router-link :to="`/food/menu?date=${inputDate}&type=${value.name}`" type="button" class="btn btn-block btn-success text-dark">
+                <router-link :to="`/food/menu?attid=${attainId}&fid=${dailyFood.food_id}&date=${dailyFood.target_dt}&type=${key}`" type="button" class="btn btn-block btn-primary">
                   메뉴를 추가하겠습니다
                 </router-link>                  
-              </div>
-              <div v-else>
-                <div class="p-1 pl-3 pr-3" v-for="(item, index) of value.foods" :key="index">
-                  <div class="row">
-                    <div class="col-9">
-                      <!-- <i class="mdi mdi-subdirectory-arrow-right mr-2"></i> -->
-                      {{ index + 1 }}.
-                      <strong>{{ item.name }}</strong>
-                    </div>
-                    <div class="col-3">
-                      <strong class="text-primary">{{ item.amount }}</strong> <small> 인분 </small>
-                    </div>
+              </div>                            
+            </div>
+            <div class="card-body pt-0" v-else-if="value.is_eating == 1">
+              <div class="p-1 pl-3 pr-3" v-for="(item, index) of value.items" :key="index">
+                <div class="row">
+                  <div class="col-9">                      
+                    {{ index + 1 }}.
+                    <strong>{{ item.name }}</strong>
+                  </div>
+                  <div class="col-3">
+                    <strong class="text-primary">{{ item.amount }}</strong> <small> {{ item.unit_nm }} </small>
                   </div>
                 </div>
-              </div>              
+              </div>
             </div>            
           </div>          
         </div>
       </div>
+      <div v-else class="pt-5 pb-5 text-center text-primary">
+        <i class="mdi mdi-loading mdi-spin"></i>
+      </div>
     </div>
     <confirm-modal v-if="doNotEatConfirmMsg" :msg="doNotEatConfirmMsg" @on-close="selectDoNotEat=null" @on-confirm="onDoNotEat()"/>
+    <progress-modal v-if="progressMsg" :msg="progressMsg"/>
   </div>
 </template>
 
@@ -73,36 +71,45 @@ export default {
   name: 'FoodIndexPage',
   data() {
     return {      
-      inputDate: null,
+      attainId: null,
       eatTypes: this.$Constants.EatTypes,
+      attainId: null,
       dailyFood: null,
-      selectDoNotEat: null
+      selectDoNotEat: null,
+      progressMsg: null
     }
   },
   created() {
-    this.inputDate = this.$route.query.date
+    this.attainId = this.$route.params.attainId    
     this.loadDailyFoods()
   },
   mounted() {
     
   },
   methods: {
-    onDoNotEat() {
+    async onDoNotEat() {
+      const eatType = this.selectDoNotEat
       this.selectDoNotEat = null
-      this.foodData.lunch.foods = null
+      const dFoodId = this.dailyFood.food_id
+      const reqBody = {}
+      reqBody[eatType] = 0
+      this.selectDoNotEat = null
+      this.progressMsg = '처리중...'
+      let response = await this.$Api.patch(`/api/attains/${this.attainId}/foods/${dFoodId}`, reqBody) 
+      this.progressMsg = null
+      await this.loadDailyFoods()
+      const toastMsg = `${this.$Constants.EatTypes[eatType]}이 먹지않음으로 처리되었습니다`
+      this.$toasted.success(toastMsg)
     },
-    async loadDailyFoods() {
-      let response = await this.$Api.post('/api/attains', {date: this.inputDate})
-      const attainId = response.attain_id
-      response = await this.$Api.get(`/api/attains/${attainId}/foods`) 
-      this.dailyFood = response.daily_food
-      console.log(this.dailyFood)
+    async loadDailyFoods() {           
+      let response = await this.$Api.get(`/api/attains/${this.attainId}/foods`)
+      this.dailyFood = response.daily_food     
     }
   },
   computed: {
     doNotEatConfirmMsg() {
       if(!this.selectDoNotEat) return null
-      return `${this.selectDoNotEat}을 <span class='text-danger'>먹지않음</span> 으로 처리하시면 <br>더이상 메뉴를 추가할 수 없습니다.<br>계속 진행하시겠습니까?`
+      return `<strong>${this.$Constants.EatTypes[this.selectDoNotEat]}을</strong> <span class='text-danger'>먹지않음</span> 으로 처리하시면 <br>변경이 불가능 합니다.<br>계속 진행하시겠습니까?`
     },
   }
 }
