@@ -1,5 +1,6 @@
 import { isValid, format, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns'
 const koDays = ['일','월','화','수','목','금','토']
+import ShortId from 'short-unique-id'
 import cloneDeep from 'lodash.clonedeep'
 export default {
   isDateVaild: isValid,
@@ -10,9 +11,7 @@ export default {
   numberWithComma(number) {       
     const parts = number.toString().split('.')
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    return parts.join('.')
-    // return num
-    // return num.toString().replace(new RegExp(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/, 'g'), ',')
+    return parts.join('.')    
   },
   onInputNumberLimitLen(evt) {
     const value = evt.target.value    
@@ -35,6 +34,9 @@ export default {
       acc[value] = item
       return acc
     }, {})
+  },
+  genUUID() {
+    return new ShortId({length: 10})
   },
   getSeepHoursLabel(hours) {
     if(hours >=0 && hours <=5){

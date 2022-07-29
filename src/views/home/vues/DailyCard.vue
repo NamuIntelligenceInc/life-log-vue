@@ -43,7 +43,7 @@
                   <i class="mdi mdi-check-bold"></i> 입력완료
                 </span>                
                 <span class="text-danger" v-else>
-                  <i class="mdi mdi-close"></i> 실패
+                  <i class="mdi mdi-close"></i> 목표실패
                 </span>                
               </div>              
             </div>
@@ -151,7 +151,11 @@ export default {
           cardState = this.CardState.Fail
         }else if(checkObj.null_val > 0) {
           if(this.payload.is_disable_day){
-            cardState = this.CardState.Fail
+            if(this.payload.daily == 1 && this.payload.food == 1 && this.payload.miband == null){
+              cardState = this.CardState.InProgress
+            }else{
+              cardState = this.CardState.Fail 
+            }             
           }else{
             cardState = this.CardState.InProgress
           }
@@ -159,8 +163,8 @@ export default {
           cardState = this.CardState.Success
         }        
       }else{
-        if(this.payload.is_disable_day){
-          cardState = this.CardState.Fail
+        if(this.payload.is_disable_day){          
+          cardState = this.CardState.Fail         
         }else{
           cardState = this.CardState.Standby
         }

@@ -1,52 +1,54 @@
 <template>
   <div class="home-page bg-primary pl-2 pr-2 pb-2" :style="{minHeight: `${screenHeight}px`}">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top m-0 bg-primary" ref="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top m-0 bg-primary" ref="navbar" style="border-bottom: 1px solid rgba(255,255, 255, .5)">
       <div class="container d-block">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <div class="row">
-              <div class="col-9">
-                <a class="navbar-brand" href="javascript:;">
-                  Life Log
+              <div class="col-6">
+                <a class="navbar-brand font-logo" href="javascript:;">
+                  LifeLog
                 </a>
               </div>
-              <div class="col-3">
+              <div class="col-6 text-right">
                 <button class="btn text-white" type="button" @click="onClickOpenMenu()">
-                  <i class="mdi" :class="{'mdi-menu': !openMenu, 'mdi-close': openMenu}"></i>
-                </button>                
+                  메뉴 <i class="mdi" :class="{'mdi-menu': !openMenu, 'mdi-close': openMenu}"></i>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>      
     </nav>
-    <div class="pb-3 mb-3" :style="{marginTop: `${navbarHeight}px`}">
-      <div class="container" v-if="userStatus">
-        <div class="row">
-          <div class="col-md-6 ml-auto mr-auto p-0">
-            <div class="p-3 text-white">
-              <p>미션 종료까지 <strong>{{ userStatus.remain_day }}</strong>일 남았습니다</p>              
-              <div class="row">
-                <div class="col-6">
-                  <div class="d-flex h-100 align-items-end">
-                    <h4>누적포인트 </h4>
-                  </div>
+    <div class="pb-4 pt-5"></div>
+    <div class="container" v-if="userStatus">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto p-0">
+          <router-link class="btn btn-block btn-link text-white text-center" :to="'/notice'">              
+            공지사항이 있습니다. 꼭 확인해 주세요 <i class="mdi mdi-hand-pointing-left"></i> 클릭
+          </router-link>
+          <div class="p-3 text-white">
+            <div class="mb-2">미션 종료까지 <strong>{{ userStatus.remain_day }}</strong>일 남았습니다</div>
+            <div class="row">
+              <div class="col-6">
+                <div class="d-flex h-100 align-items-end">
+                  <h4 class="mb-0">누적포인트 </h4>
                 </div>
-                <div class="col-6 text-right">
-                  <h2>
-                    <animated-number
-                      :value="userStatus.succ_cnt * $Constants.DailyRewardPrice"
-                      :round="1"
-                      :formatValue="$Utils.numberWithComma"
-                      :duration="500"/>
-                  </h2>
-                </div>
+              </div>
+              <div class="col-6 text-right">
+                <h2 class="mb-0">
+                  <animated-number
+                    :value="userStatus.succ_cnt * $Constants.DailyRewardPrice"
+                    :round="1"
+                    :formatValue="$Utils.numberWithComma"
+                    :duration="500"/>
+                </h2>
               </div>
             </div>
           </div>
         </div>
-      </div> 
-    </div>
+      </div>
+    </div> 
     <div class="container">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">          
@@ -95,7 +97,7 @@ export default {
       const todayYmd = this.$Utils.dateFormat(endDt, 'yyyy-MM-dd')
       if(todayYmd > this.userProfile.end_dt){
         endDt = new Date(this.userProfile.end_dt)
-      }      
+      }            
       const dateList = this.generateDateList(this.userProfile.start_dt, endDt)      
       this.dailyAttainList = await this.loadDailyAttainRows(dateList)      
     },
@@ -103,10 +105,14 @@ export default {
       const dateList = []      
       const startDt = new Date(start)
       const endDt = new Date(end)
-      for (let d = new Date(startDt); d <= endDt; d.setDate(d.getDate() + 1)) {
-        const dateYmd = this.$Utils.dateFormat(new Date(d), 'yyyy-MM-dd')        
+
+      const itemDt = new Date(startDt)
+      while(this.$Utils.dateFormat(itemDt, 'yyyy-MM-dd') <= this.$Utils.dateFormat(endDt, 'yyyy-MM-dd')){
+        const dateYmd = this.$Utils.dateFormat(new Date(itemDt), 'yyyy-MM-dd')
         dateList.push(dateYmd)
+        itemDt.setDate(itemDt.getDate() + 1)
       }
+      
       return dateList.reverse()
     },
     async loadUserStatus() {

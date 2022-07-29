@@ -10,22 +10,25 @@
           </div>
           <div class="card-body pt-1">
             <div class="list-group">
-              <a href="javascript:;" class="list-group-item list-group-item-action" @click="onClickMove('/help')">
-                <i class="mdi mdi-help-circle-outline"></i> 도움말
+              <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/notice')">
+                <i class="mdi mdi-bell-alert-outline"></i> 공지사항
               </a>
-              <a href="javascript:;" class="list-group-item list-group-item-action" @click="onClickMove('/mypage')">
+              <!-- <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/help')">
+                <i class="mdi mdi-help-circle-outline"></i> 도움말
+              </a> -->
+              <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/mypage')">
                 <i class="mdi mdi-account-circle-outline"></i> 마이페이지
               </a>
-              <a target="_blank" :href="$Constants.KakaoChatLink" class="list-group-item list-group-item-action">
+              <!-- <a target="_blank" :href="$Constants.KakaoChatLink" class="list-group-item list-group-item-action pl-5 text-left">
                 <i class="mdi mdi-chat-processing-outline"></i> 고객센터( 카카오톡 )
-              </a>
-              <a target="_blank" :href="`tel:${managerPhoneNumber}`" class="list-group-item list-group-item-action" :class="{'disabled': !managerPhoneNumber}">
+              </a> -->
+              <a target="_blank" :href="`tel:${managerPhoneNumber}`" class="list-group-item list-group-item-action pl-5 text-left" :class="{'disabled': !managerPhoneNumber}">
                 <i class="mdi mdi-phone-in-talk"></i> 고객센터( 전화 )
                 <div v-if="!managerPhoneNumber">
                   <small class="text-secondary">(담당자가 배정되지 않았습니다)</small>
                 </div>
               </a>
-              <a href="javascript:;" class="list-group-item list-group-item-action" @click="onClickLogout()">
+              <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickLogout()">
                 <i class="mdi mdi-logout"></i> 로그아웃
               </a>
             </div>

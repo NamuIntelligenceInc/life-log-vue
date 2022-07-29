@@ -12,7 +12,7 @@
               <input type="text" class="form-control underline text-center bg-white text-primary" :readonly="true" :value="`${labelOptions.SmokingAmt[payload.smoking_amt.toString()]}`">
             </div>
             <div class="col-8 col-form-label text-center text-secondary" v-else>
-              비흡연자
+              비흡연자 입니다
             </div>
           </div>
           <div class="row mb-3">
@@ -78,11 +78,11 @@
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-4 col-form-label">
+            <label class="col-6 col-form-label">
               <i class="mdi mdi-sleep"></i>
               총 수면시간
             </label>
-            <div class="col-8 text-center col-form-label">              
+            <div class="col-6 text-center col-form-label">              
               <strong class="text-primary">
                 {{ sleepTime.hours }}<small class="mr-1">시간</small>
                 <span v-if="sleepTime.mins">{{ sleepTime.mins }}<small>분</small></span>
@@ -123,12 +123,12 @@
               </div>
             </div>
             <div v-if="payload.drinking_list">
-              <span class="pl-3 mb-2" v-for="(item, index) of payload.drinking_list" :key="index">
+              <div class="pl-3 mb-2" v-for="(item, index) of payload.drinking_list" :key="index">
                 <i class="mdi mdi-circle-medium"></i>
                 <strong class="text-primary">{{ item.name }}</strong>
                 <span class="text-primary ml-2">{{ labelOptions.DrinkAmt[item.amount.toString()] }}</span>을
                 섭취하셨습니다
-              </span>              
+              </div>              
             </div>
           </div>
           <div class="mb-3">

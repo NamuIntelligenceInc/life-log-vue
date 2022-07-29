@@ -4,11 +4,17 @@ import store from '@/store'
 import StartPage from '@/views/Start.vue'
 import HomeIndexPage from '@/views/home/Index.vue'
 import SigninPage from '@/views/users/Signin.vue'
+import SignupPage from '@/views/users/Signup.vue'
+import SignupCompletePage from '@/views/users/SignupComplete.vue'
 import DailyIndexPage from '@/views/daily/Index.vue'
 import FoodIndexPage from '@/views/food/Index.vue'
 import FoodAddPage from '@/views/food/Add.vue'
 import MypageIndexPage from '@/views/mypage/Index.vue'
+import InfoIndexPage from '@/views/info/Index.vue'
 import AuthenticatePage from '@/views/Authenticate.vue'
+import HelpIndexPage from '@/views/help/Index.vue'
+import HelpInstallPage from '@/views/help/Install.vue'
+import NoticeIndexPage from '@/views/notice/Index.vue'
 import ErrorPage from '@/views/Error.vue'
 
 Vue.use(VueRouter)
@@ -77,13 +83,29 @@ const routes = [
     path: '/signin',
     name: 'Signin',
     component: SigninPage
-  },  
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: SignupPage
+  },
+  {
+    path: '/signup/complete',
+    name: 'SignupComplete',
+    component: SignupCompletePage
+  },
+  {
+    path: '/notice',
+    name: 'NoticeIndex',
+    component: NoticeIndexPage,
+    beforeEnter: userAuthenticate
+  },
   {
     path: '/daily/:attainId(\\d+)',
     name: 'DailyIndex',
     component: DailyIndexPage,
     beforeEnter: userAuthenticate
-  },
+  },  
   {
     path: '/food/:attainId(\\d+)',
     name: 'FoodsIndex',
@@ -100,6 +122,24 @@ const routes = [
     path: '/mypage',
     name: 'MypageIndex',
     component: MypageIndexPage,
+    beforeEnter: userAuthenticate
+  },
+  {
+    path: '/info',
+    name: 'InfoIndex',
+    component: InfoIndexPage,
+    beforeEnter: userAuthenticate
+  },
+  {
+    path: '/help',
+    name: 'HelpIndexPage',
+    component: HelpIndexPage,
+    beforeEnter: userAuthenticate
+  },
+  {
+    path: '/help/install',
+    name: 'HelpInstallPage',
+    component: HelpInstallPage,
     beforeEnter: userAuthenticate
   },
   {

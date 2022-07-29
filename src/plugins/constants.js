@@ -1,5 +1,6 @@
 export default {
   DailyRewardPrice: 3000, 
+  HRALink: 'https://namuintelligence.surveysparrow.com/s/HRA---3/tt-1d4d6eda94',
   KakaoChatLink: 'http://pf.kakao.com/_qNVtb/chat',
   Options: {
     SmokingAmt: {
@@ -52,6 +53,20 @@ export default {
       '120':'2시간',
       '150':'2시간 반',
       '180':'3시간',
+    },
+    Gender: {
+      '남자': '0',
+      '여자': '1'
+    },
+    YN: {
+      Yes: {
+        text: '예',
+        val: '1'
+      },
+      No: {
+        text: '아니오',
+        val: '0'
+      }
     }
   },
   Selection: {
@@ -95,7 +110,7 @@ export default {
     '커넥티드-0':'01098172711'
   },
   ErrMessages: {
-    '401': '접근 권한이 없이 페이지 입니다'
-  }
+    '401': '접근 권한이 없이 페이지 입니다',
+  }  
 }
 

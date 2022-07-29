@@ -6,7 +6,7 @@
           LifeLog          
         </h1>
         <div class="text-center text-white mb-5">
-          - 라이프 로그 -
+          - 만성질환 인공지능 데이터 수집 -
         </div>
         <form>
           <div class="input-group mb-3">
@@ -15,20 +15,33 @@
                 <i class="mdi mdi-account-outline"></i>
               </span>
             </div>
-            <input type="text" class="form-control no-border text-center" v-model.trim="inputId" placeholder="연락처를 입력해 주세요">
+            <input type="email" class="form-control no-border text-center" v-model.trim="inputId" placeholder="로그인 아이디(nin00000@cu.com)">
           </div>
-
           <div class="input-group mb-5">
             <div class="input-group-prepend">
               <span class="input-group-text no-border bg-white">
                 <i class="mdi mdi-lock-outline"></i>
               </span>
             </div>
-            <input type="password" class="form-control no-border text-center" v-model.trim="inputPwd" placeholder="비밀번호를 입력해 주세요" autocomplete="off">
-          </div>                
-          <button type="button" class="btn btn-block bg-white text-primary" @click="onClickSignin()">
-            <i class="mdi mdi-check"></i> 로그인
-          </button>
+            <input type="password" class="form-control no-border text-center" v-model.trim="inputPwd" placeholder="비밀번호(생년월일 8 자리)" autocomplete="off">
+          </div> 
+          <div class="mb-3 text-white">
+            <p>
+              회원이 아니시면 회원가입을 진행해 주세요              
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-6 pr-1">
+              <router-link :to="'/signup'" class="btn btn-block bg-white text-primary">
+                <i class="mdi mdi-account-plus-outline"></i> 회원가입
+              </router-link>
+            </div>
+            <div class="col-6 pl-1">
+              <button type="button" class="btn btn-block bg-white text-primary" @click="onClickSignin()">
+                <i class="mdi mdi-check"></i> 로그인
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -48,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    
+    this.$cookies.remove('token')
   },
   methods: {
     async onClickSignin() {

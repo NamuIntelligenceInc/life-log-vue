@@ -143,14 +143,14 @@
               </label>
               <div class="col-6">
                 <button class="btn btn-sm m-1" 
-                  v-for="(value, key) in $Constants.Selection.YN" :key="key"
+                  v-for="(value, key) in $Constants.Options.YN" :key="key"
                   :class="{'text-primary': (selectIsDrinking == value.val)}" @click="selectIsDrinking = value.val">
                   <i class="mdi" :class="{'mdi-checkbox-blank-circle-outline': selectIsDrinking != value.val, 'mdi-checkbox-marked-circle-outline': selectIsDrinking == value.val}"></i>
                   {{ value.text }}
                 </button>
               </div>
             </div>            
-            <div class="pt-3 pb-3" v-if="selectIsDrinking == $Constants.Selection.YN.Yes.val">
+            <div class="pt-3 pb-3" v-if="selectIsDrinking == $Constants.Options.YN.Yes.val">
               <div class="mb-3" v-if="Object.values(drinkingMap).length > 0">
                 <div class="card mb-2" v-for="(value, key) in drinkingMap" :key="key">
                   <div class="card-body pt-1 pb-1 pl-2 pr-2">
@@ -185,14 +185,14 @@
               </label>
               <div class="col-6">                
                 <button class="btn btn-sm m-1" 
-                  v-for="(value, key) in $Constants.Selection.YN" :key="key"
+                  v-for="(value, key) in $Constants.Options.YN" :key="key"
                   :class="{'text-primary': (selectIsExercise == value.val)}" @click="selectIsExercise = value.val">
                   <i class="mdi" :class="{'mdi-checkbox-blank-circle-outline': selectIsExercise != value.val, 'mdi-checkbox-marked-circle-outline': selectIsExercise == value.val}"></i>
                   {{ value.text }}
                 </button>                
               </div>
             </div>
-            <div class="pt-3 pb-3" v-if="selectIsExercise == $Constants.Selection.YN.Yes.val">
+            <div class="pt-3 pb-3" v-if="selectIsExercise == $Constants.Options.YN.Yes.val">
               <div class="mb-3" v-if="Object.values(exerciseMap).length > 0">
                 <div class="card mb-2" v-for="(value, key) in exerciseMap" :key="key">
                   <div class="card-body pt-1 pb-1 pl-2 pr-2">
@@ -291,8 +291,8 @@ export default {
         mins: '0'
       },
 
-      selectIsDrinking: this.$Constants.Selection.YN.No.val,
-      selectIsExercise: this.$Constants.Selection.YN.No.val,
+      selectIsDrinking: this.$Constants.Options.YN.No.val,
+      selectIsExercise: this.$Constants.Options.YN.No.val,
       showExcBSheet: false,
       exerciseMap: {},
       showDrinkBSheet: false,
@@ -341,7 +341,7 @@ export default {
       const drinkingList = Object.values(this.drinkingMap)
       const exerciseList = Object.values(this.exerciseMap)
       
-      if(this.selectIsDrinking == this.$Constants.Selection.YN.Yes.val) {        
+      if(this.selectIsDrinking == this.$Constants.Options.YN.Yes.val) {        
         if(drinkingList.length == 0){
           this.$toasted.error('음주 내용을 추가해 주세요')
           return
@@ -352,7 +352,7 @@ export default {
         reqBody.is_drinking = 0
       }
 
-      if(this.selectIsExercise == this.$Constants.Selection.YN.Yes.val) {
+      if(this.selectIsExercise == this.$Constants.Options.YN.Yes.val) {
         if(exerciseList.length == 0){
           this.$toasted.error('운동을 추가해 주세요')
           return
