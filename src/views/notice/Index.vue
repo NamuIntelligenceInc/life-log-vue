@@ -22,7 +22,7 @@
     <div class="pt-3 pb-5"></div>
     <div class="container pt-3 pb-3">
       <div class="col-md-6 ml-auto mr-auto p-0">        
-        <div class="card mb-2" v-for="(item, index) of noticeList" :key="index">
+        <div class="card mb-3" v-for="(item, index) of noticeList" :key="index">
           <div class="card-header bg-white" :class="{'no-border': !item.is_open}">
             <button type="button" class="btn btn-block pl-0 pr-0 text-left" @click="item.is_open = !item.is_open">              
               <span :class="{'text-primary': item.is_open}">
