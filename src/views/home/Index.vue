@@ -18,14 +18,15 @@
             </div>
           </div>
         </div>
-      </div>      
+      </div>
     </nav>
     <div class="pb-4 pt-5"></div>
     <div class="container" v-if="userStatus">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto p-0">
-          <router-link class="btn btn-block btn-link text-white text-center" :to="'/notice'">              
-            공지사항이 있습니다. 꼭 확인해 주세요 <i class="mdi mdi-hand-pointing-left"></i> 클릭
+          <router-link class="btn btn-block btn-link text-white text-center" :to="'/notice'">
+            <i class="mdi mdi-information"></i>
+            공지사항을 꼭 확인해 주세요 <i class="mdi mdi-hand-pointing-left"></i> 클릭
           </router-link>
           <div class="p-3 text-white">
             <div class="mb-2">미션 종료까지 <strong>{{ userStatus.remain_day }}</strong>일 남았습니다</div>

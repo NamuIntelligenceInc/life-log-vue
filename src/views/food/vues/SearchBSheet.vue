@@ -160,14 +160,20 @@ export default {
     searchResults() {
       if(this.inputKeyword == '') {
         return null
-      }
-      const searchRows = this.searchRows.reduce((acc, item)=>{
+      }      
+      const searchRows = this.searchRows.reduce((acc, item)=>{        
         item.is_input = false
         acc.push(item)
         return acc
-      }, [])
-      if(this.searchRows.indexOf(this.inputKeyword) > -1) return searchRows
-      searchRows.push({name: this.inputKeyword, unit: '인분', is_input: true})      
+      }, [])      
+      
+      let isContainKeyword = searchRows.reduce((acc, item)=>{
+        if(acc) return acc
+        acc = (item.name == this.inputKeyword)        
+        return acc
+      }, false)      
+      if(isContainKeyword) return searchRows
+      searchRows.push({name: this.inputKeyword, unit: '인분', is_input: true})           
       return searchRows
     },
     latestFoods() {
@@ -198,10 +204,7 @@ export default {
   transition: bottom .3s ease-in-out;
   &.show{    
     top: 0;
-  }
-  .search-results{
-    // background-color: $gray-100;
-  }
+  }  
   .selected-results{
     overflow: auto;
     white-space: nowrap;

@@ -39,12 +39,15 @@
           <hr>          
           <div style="min-height: 300px">
             <div v-if="Object.keys(choicedFoods).length > 0">
-              <p class="text-center">
-                <i class="mdi mdi-plus-box text-primary"></i>, <i class="mdi mdi-minus-box text-primary"></i> 
+              <div>
+                <small>                  
+                  <strong><i class="mdi mdi-star-plus-outline"></i> 버튼</strong>을 을 누르시면 자주먹는 메뉴에 추가됩니다
+                </small>                  
+                <br><i class="mdi mdi-plus-box text-primary"></i>, <i class="mdi mdi-minus-box text-primary"></i> 
                 <small>버튼으로 양을 조절하신 후
-                <br><span class="text-primary">하단에 완료</span> 버튼을 눌러주세요
+                <span class="text-primary">하단에 완료</span>버튼을 눌러주세요
                 </small>
-              </p>
+              </div>                              
               <food-item 
                 v-for="(value, key) in choicedFoods" :key="key"
                 :payload="value"
@@ -62,7 +65,7 @@
           </div>
           <div class="row mt-5 mb-5" v-if="!isSaving">
             <div class="col-6 pr-1">
-              <button type="button" class="btn btn-block btn-secondary">
+              <button type="button" class="btn btn-block btn-secondary" @click="$router.go(-1)">
                 <i class="mdi mdi-close"></i> 취소
               </button>
             </div>

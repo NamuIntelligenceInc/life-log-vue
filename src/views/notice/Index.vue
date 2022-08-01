@@ -23,24 +23,33 @@
     <div class="container pt-3 pb-3">
       <div class="col-md-6 ml-auto mr-auto p-0">        
         <div class="card mb-3" v-for="(item, index) of noticeList" :key="index">
-          <div class="card-header bg-white" :class="{'no-border': !item.is_open}">
+          <div class="card-header bg-white no-border">
             <button type="button" class="btn btn-block pl-0 pr-0 text-left" @click="item.is_open = !item.is_open">              
-              <span :class="{'text-primary': item.is_open}">
-                {{ index + 1 }}.
-                {{ item.title }}
-              </span>
-              <small class="text-secondary">
+              <div class="row">
+                <div class="col-10 pr-1">
+                   <span :class="{'font-weight-bold': item.is_open}">
+                    {{ index + 1 }}.
+                    {{ item.title }}
+                  </span>                  
+                </div>
+                <div class="col-2 pl-1 text-right">
+                  <i class="mdi" :class="{'mdi-plus': !item.is_open, 'mdi-minus': item.is_open}"></i>
+                </div>
+              </div>              
+            </button>
+          </div>
+          <div class="card-body notice-description pt-0" :class="{'show': item.is_open}">
+            <div v-html="item.description"></div>
+            <div class="text-right">
+              <small class="text-primary">
                 <span v-if="getDiff(item.created_dt) == 0">
                   오늘
                 </span>
                 <span v-else>
                   {{ getDiff(item.created_dt) }} 일전
                 </span>
-              </small>              
-            </button>
-          </div>
-          <div class="card-body notice-description" :class="{'show': item.is_open}">
-            <div v-html="item.description"></div>
+              </small>
+            </div>
           </div>
         </div>
       </div>
@@ -59,15 +68,14 @@ export default {
   },
   created() {    
     this.noticeList = NoticeList.reduce((acc, item)=>{
-      item.is_open = false
+      item.is_open = true
       acc.push(item)
       return acc
-    }, [])
-    this.noticeList[0].is_open = true
+    }, [])    
   },
   methods: {    
     getDiff(dt) {
-      return this.$Utils.diffDays(new Date(dt), new Date())
+      return this.$Utils.diffDays(new Date(), new Date(dt))
     }
   },
   computed: {

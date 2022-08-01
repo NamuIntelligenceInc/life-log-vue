@@ -133,14 +133,12 @@ const routes = [
   {
     path: '/help',
     name: 'HelpIndexPage',
-    component: HelpIndexPage,
-    beforeEnter: userAuthenticate
+    component: HelpIndexPage
   },
   {
     path: '/help/install',
     name: 'HelpInstallPage',
-    component: HelpInstallPage,
-    beforeEnter: userAuthenticate
+    component: HelpInstallPage
   },
   {
     path: '/authenticate',

@@ -17,10 +17,20 @@
     <div class="pb-5 pt-5"></div>
     <div class="container">
       <div class="row">
-        <div class="col-md-6 ml-auto mr-auto">
-          <router-link class="btn btn-block btn-link" :to="'/help/install'">
-            Q1. 앱설치는 어떻게 하나요?
-          </router-link>
+        <div class="col-md-6 ml-auto mr-auto">          
+          <div class="card">
+            <div class="card-header bg-white no-border">
+              1. 홈화면 추가를 통해서 앱을 설치하시면 더 편리하게 이용하실수 있습니다
+            </div>
+            <div class="card-body pt-0">
+              <router-link class="btn btn-block btn-link text-left" :to="'/help/install?device=android'">                
+                1. 안드로이드 홈화면 추가
+              </router-link>
+              <router-link class="btn btn-block btn-link text-left" :to="'/help/install?device=ios'">                
+                2. 아이폰 홈화면 추가
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

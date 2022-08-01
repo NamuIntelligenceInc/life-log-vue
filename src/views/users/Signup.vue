@@ -19,6 +19,11 @@
       <div class="row mb-5">
         <div class="col-md-4 ml-auto mr-auto">
           <div class="row mb-3">
+            <div class="col-md-8 ml-auto mr-auto">
+              <img class="w-100" src="/images/miband_id.png"/>
+            </div>            
+          </div>
+          <div class="row mb-3">
             <label class="col-12 col-form-label">
               * 로그인 아이디 ( 연구용 아이디 )
               <br><small class="text-danger">꼭 전달받은 미밴드(zepplife앱) 아이디를 입력해 주세요</small>
@@ -59,7 +64,9 @@
             <div class="col-12">
               <input type="number" class="form-control underline text-center" v-model.trim="formData.weight" placeholder="예시)70"/>
             </div>
-          </div>
+          </div>                   
+        </div>
+        <div class="col-md-4 ml-auto mr-auto">
           <div class="row mb-3">
             <label class="col-12 col-form-label">
               사용하시는 이메일을 입력해 주세요<br><small>(없다면 비워두셔도 됩니다)</small>
@@ -67,9 +74,7 @@
             <div class="col-12">
               <input type="email" class="form-control underline text-center" v-model.trim="formData.email" placeholder="예시)abc@gmail.com"/>
             </div>
-          </div>          
-        </div>
-        <div class="col-md-4 ml-auto mr-auto">
+          </div> 
           <div class="row mb-3">
             <label class="col-12 col-form-label">
               * 성별이 어떻게 되십니까?
@@ -304,9 +309,9 @@ export default {
     ymdToDate(inputDate) {
       if(inputDate.length != 8) return null
       const year = inputDate.substr(0,4)
-      const month = inputDate.substr(4,2)      
+      const month = inputDate.substr(4,2)
       const date = inputDate.substr(6,2)
-      return new Date(year, month, date)
+      return new Date(Number(year), Number(month - 1), Number(date))
     },
     isInvalidDate(inputDate) {      
       return this.$Utils.isDateVaild(this.ymdToDate(inputDate))

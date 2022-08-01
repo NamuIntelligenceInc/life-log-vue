@@ -7,24 +7,22 @@
             <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
               <i class="mdi mdi-arrow-left"></i>
               <strong class="ml-3">
-                앱 설치 방법
+                <span v-if="$route.query.device">
+                  {{ $route.query.device.toUpperCase() }}
+                </span>
+                홈화면 추가 방법
               </strong>
             </button>
           </div>
         </div>
       </div>      
     </nav>
-    <div class="pb-5"></div>
+    <div class="pb-5 pt-5"></div>
     <div class="container">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">
-          <div class="card">
-            <div class="card-header">
-              <i class="mdi mdi-web"></i>
-              안드로이드 일반 브라우져
-            </div>
-            <div class="card-body"></div>
-          </div>
+          <android-guide v-if="deviceType == 'android'"/>
+          <ios-guide v-else/>
         </div>
       </div>
     </div>
@@ -32,11 +30,22 @@
 </template>
 
 <script>
+import IosGuide from './vues/IosGuide.vue'
+import AndroidGuide from './vues/AndroidGuide.vue'
 export default {
   name: 'HelpInstallPage',
+  components: {
+    AndroidGuide,
+    IosGuide
+  },
   data() {
     return {
-
+      
+    }
+  },
+  computed: {
+    deviceType() {
+      return this.$route.query.device
     }
   }
 }

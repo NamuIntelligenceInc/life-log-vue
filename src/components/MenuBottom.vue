@@ -13,9 +13,9 @@
               <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/notice')">
                 <i class="mdi mdi-bell-alert-outline"></i> 공지사항
               </a>
-              <!-- <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/help')">
+              <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/help')">
                 <i class="mdi mdi-help-circle-outline"></i> 도움말
-              </a> -->
+              </a>
               <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/mypage')">
                 <i class="mdi mdi-account-circle-outline"></i> 마이페이지
               </a>
