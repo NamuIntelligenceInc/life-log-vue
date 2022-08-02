@@ -1,6 +1,6 @@
 <template>
   <div class="start-page bg-primary" :style="{minHeight: `${screenHeight}px`}">
-    <div style="padding: 100px 0"></div>
+    <div style="padding-top: 5%"></div>
     <transition name="fade">
       <div class="container" v-if="show">
         <h1 class="text-white text-center">LifeLog</h1>

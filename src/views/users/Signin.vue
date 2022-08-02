@@ -17,18 +17,19 @@
             </div>
             <input type="email" class="form-control no-border text-center" v-model.trim="inputId" placeholder="로그인 아이디(nin00000@cu.com)">
           </div>
-          <div class="input-group mb-5">
+          <div class="input-group mb-4">
             <div class="input-group-prepend">
               <span class="input-group-text no-border bg-white">
                 <i class="mdi mdi-lock-outline"></i>
               </span>
             </div>
-            <input type="password" class="form-control no-border text-center" v-model.trim="inputPwd" placeholder="비밀번호(생년월일 8 자리)" autocomplete="off">
-          </div> 
-          <div class="mb-3 text-white">
-            <p>
-              회원이 아니시면 회원가입을 진행해 주세요              
-            </p>
+            <input type="password" class="form-control no-border text-center" v-model.trim="inputPwd" placeholder="비밀번호(생년월일 8 자리)" autocomplete="off" @keyup.enter="onClickSignin()">
+          </div>           
+          <a target="_blank" :href="$Constants.KakaoChatLink" class="text-left btn btn-block text-white pl-0">
+            고객센터( 카카오톡 ) 바로가기 <i class="mdi mdi-hand-pointing-left"></i>
+          </a>
+          <div class="text-white mb-4">
+            회원이 아니시면 회원가입을 진행해 주세요
           </div>
           <div class="row">
             <div class="col-6 pr-1">

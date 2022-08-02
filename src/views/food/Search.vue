@@ -1,5 +1,5 @@
 <template>
-  <div id="searchBSheet" class="search-food-selection fixed-top bg-white" :style="{minHeight: `${screenHeight}px`}" :class="{'show': show}">
+  <div class="foods-search-page fixed-top bg-white" :style="{minHeight: `${screenHeight}px`}">
       <nav class="navbar navbar-light food-navbar" ref="foodSearchNav">
         <div class="container d-block p-0">
           <div class="row">
@@ -33,7 +33,7 @@
           </div>        
         </div>
       </nav>
-      <div class="container search-results" :style="{height: `${scrollHeight}px`, overflowY: 'auto'}">
+      <div class="container search-results">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto p-1">            
             <div v-if="searchResults">
@@ -48,7 +48,7 @@
             </div>            
             <div v-else>
               <div class="text-center pb-1 pt-1">
-                <small v-if="!isPreventSelect">
+                <small v-if="selectableCount - Object.keys(selectedFoods).length > 0">
                   <span class="text-primary">{{ selectableCount - Object.keys(selectedFoods).length }}</span>개 선택가능합니다
                 </small>
                 <small v-else>
@@ -71,30 +71,25 @@
 <script>
 
 export default {
-  name: 'SearchFoodBottomSheet',
-  props: {
-    show: {
-      type: Boolean,
-      default: false
-    },
-    selectableCount: {
-      type: Number,
-      default: 0
-    }
-  },
+  name: 'SearchFoodsPage',  
   data() {
-    return {
-      scrollHeight: 0, 
+    return {      
       inputKeyword: '',
       searchRows: [],
+      alreadySelected: {},
       selectedFoods: {}     
     }
   },
   mounted() {    
-    const navHeight = this.$refs.foodSearchNav.clientHeight    
-    this.scrollHeight = this.screenHeight - (navHeight + 87)    
+    this.loadAlreadySelectedFoods()
+    this.$refs.inputKeyword.focus()
   },
-  methods: {    
+  methods: {
+    loadAlreadySelectedFoods() {
+      let foods = localStorage.getItem('selected_foods')
+      foods = (foods) ? JSON.parse(foods) : {}
+      this.alreadySelected = foods
+    },  
     async loadSearchRows() {
       const reqParams = {
         keyword: this.inputKeyword
@@ -112,13 +107,19 @@ export default {
     },
     onClickSelectItem(data) {
       if((this.selectableCount - this.selectedFoods.length) <= 0){
+        this.searchRows = []
+        this.inputKeyword = ''
+        this.$refs.inputKeyword.value = ''
         this.$toasted.error('더 선택 할 수 없습니다')
         return
       }
 
       data.name = data.name.replace(/ /g, '')      
-      if(this.selectedFoods[data.name]) {
-        this.$toasted.error('이미 선택하신 음식 입니다')
+      if(this.selectedFoods[data.name] || this.alreadySelected[data.name]) {
+        this.searchRows = []
+        this.inputKeyword = ''
+        this.$refs.inputKeyword.value = ''
+        this.$toasted.error(`'${data.name}' 이미 선택된 음식 입니다`)
         return
       }
 
@@ -134,7 +135,16 @@ export default {
       return rawTxt.replace(pattern, `<strong class='text-primary'>${searchTxt}</strong>`)
     },
     onClickComplete() {      
-      this.$emit('on-append', this.$Utils.cloneObject(this.selectedFoods))
+      const selectedFoods = Object.keys(this.selectedFoods).reduce((acc, item)=>{
+        const food = this.selectedFoods[item]
+        delete food.is_input
+        delete food.count
+        food.amount = 1
+        acc[item] = food
+        return acc
+      }, {})
+      const saveFoods = Object.assign(this.alreadySelected, selectedFoods)      
+      localStorage.setItem('selected_foods', JSON.stringify(saveFoods))
       this.$router.go(-1)
     }
   },
@@ -160,37 +170,25 @@ export default {
     },
     latestFoods() {
       return this.$store.getters['getLatestFoods']
-    },
-    isPreventSelect() {
-      return this.selectableCount - Object.keys(this.selectedFoods).length == 0
+    },    
+    selectableCount() {
+      const alreadySelectedCnt = Object.keys(this.alreadySelected).length      
+      return this.$Constants.SelectedFoodsLimit - alreadySelectedCnt
     }
   },
   watch: {
-    show(val){      
-      if(val) {
-        this.inputKeyword = ''
-        setTimeout(()=>{
-          this.$refs.inputKeyword.focus() 
-          window.scrollTo(0,0)
-        }, 500)
-        document.documentElement.style.overflowY = 'hidden'
-      }else{
-        this.selectedFoods = {}
-        document.documentElement.style.overflowY = 'auto'
-      }
-    }
+    
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.search-food-selection{
-  -webkit-transform: translateZ(0);
-  top: 2000px;
-  transition: bottom .3s ease-in-out;
-  &.show{    
-    top: 0;
-  }  
+.foods-search-page{  
+  // top: 2000px;
+  // transition: bottom .3s ease-in-out;
+  // &.show{    
+  //   top: 0;
+  // }  
   .selected-results{
     overflow: auto;
     white-space: nowrap;

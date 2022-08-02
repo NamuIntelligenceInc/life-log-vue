@@ -4,12 +4,21 @@
       <div class="container d-block p-0">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto p-0">
-            <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
-              <i class="mdi mdi-arrow-left"></i>
-              <strong class="ml-3">
-                회원가입 및 기본정보 설정
-              </strong>
-            </button>
+            <div class="row">
+              <div class="col-8 pr-1">
+                <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
+                  <i class="mdi mdi-arrow-left"></i>
+                  <strong class="ml-3">
+                    회원가입 및 기본정보 설정
+                  </strong>
+                </button>
+              </div>
+              <div class="col-4 pl-1">
+                <a target="_blank" :href="$Constants.KakaoChatLink" class="btn btn-block text-right text-white">
+                  <i class="mdi mdi-help-circle"></i> 카톡문의
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -28,8 +37,36 @@
               * 로그인 아이디 ( 연구용 아이디 )
               <br><small class="text-danger">꼭 전달받은 미밴드(zepplife앱) 아이디를 입력해 주세요</small>
             </label>
+            <div class="col-12">              
+              <div class="input-group">                
+                <input type="text" class="form-control underline text-center" v-model.trim="formData.login_id" placeholder="예시)nin00000(8자리)" maxlength="8"/>
+                <div class="input-group-append">
+                  <span class="input-group-text no-border bg-white">
+                    {{ IdSuffix }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-12 col-form-label">
+              * 소속(모집)기관
+              <br><small>(로그인 아이디 입력시 자동으로 선택됩니다)</small>
+            </label>
             <div class="col-12">
-              <input type="email" class="form-control underline text-center" v-model.trim="formData.login_id" placeholder="예시)nin00000@cu.com"/>
+              <div class="form-control underline text-center">
+                <div class="text-secondary" v-if="formData.login_id.length != 8">
+                  로그인 아이디를 모두 입력해 주세요
+                </div>
+                <div v-else>
+                  <span class="text-primary" v-if="selectedOrgnz">
+                    {{ selectedOrgnz.name }}
+                  </span>
+                  <span class="text-danger" v-else>
+                    소속(모집)기관을 찾을 수 없습니다
+                  </span>
+                </div>
+              </div>              
             </div>
           </div>
           <div class="row mb-3">
@@ -48,7 +85,9 @@
             <div class="col-12">
               <input type="number" class="form-control underline text-center" v-model.trim="formData.phone" placeholder="예시)01012341234"/>
             </div>
-          </div>
+          </div>                            
+        </div>
+        <div class="col-md-4 ml-auto mr-auto">
           <div class="row mb-3">
             <label class="col-12 col-form-label">
               * 이름을 입력해 주세요
@@ -64,17 +103,7 @@
             <div class="col-12">
               <input type="number" class="form-control underline text-center" v-model.trim="formData.weight" placeholder="예시)70"/>
             </div>
-          </div>                   
-        </div>
-        <div class="col-md-4 ml-auto mr-auto">
-          <div class="row mb-3">
-            <label class="col-12 col-form-label">
-              사용하시는 이메일을 입력해 주세요<br><small>(없다면 비워두셔도 됩니다)</small>
-            </label>
-            <div class="col-12">
-              <input type="email" class="form-control underline text-center" v-model.trim="formData.email" placeholder="예시)abc@gmail.com"/>
-            </div>
-          </div> 
+          </div>            
           <div class="row mb-3">
             <label class="col-12 col-form-label">
               * 성별이 어떻게 되십니까?
@@ -90,39 +119,7 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label class="col-12 col-form-label">
-              * 만성질환(뇌졸중, 심장병, 고혈압, 당뇨병, 고지혈증, 폐결핵 등) 만성질환 관련 병력이 있으십니까?
-            </label>
-            <div class="col-12">
-              <div class="row">
-                <div class="col" v-for="(value, key) of $Constants.Options.YN" :key="key">
-                  <button type="button" class="btn btn-block" 
-                    :class="{'text-primary': (formData.is_disease == value.val), 'text-secondary' : (formData.is_disease != value.val)}" @click="formData.is_disease = value.val">
-                    <i class="mdi mdi-check-bold"></i>
-                    {{ value.text }}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3" v-if="formData.is_disease === $Constants.Options.YN.Yes.val">
-            <label class="col-12 col-form-label">
-              * 만성질환 관련 약을 복용하고 계십니까?
-            </label>
-            <div class="col-12">
-              <div class="row">
-                <div class="col" v-for="(value, key) of $Constants.Options.YN" :key="key">
-                  <button type="button" class="btn btn-block" 
-                    :class="{'text-primary': (formData.is_medicine == value.val), 'text-secondary' : (formData.is_medicine != value.val)}" @click="formData.is_medicine = value.val">
-                    <i class="mdi mdi-check-bold"></i>
-                    {{ value.text }}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div>          
           <div class="row mb-3">
             <label class="col-12 col-form-label">
               * 흡연을 하십니까?
@@ -165,19 +162,12 @@
           </div>
           <div class="row mb-3">
             <label class="col-12 col-form-label">
-              * 소속(모집)기관이 어떻게 되십니까?
-              <br><small>(모집기관을 모르신다면 '기타'를 선택해 주세요)</small>
+              사용하시는 이메일을 입력해 주세요<br><small>(없다면 비워두셔도 됩니다)</small>
             </label>
             <div class="col-12">
-              <select class="form-control underline" v-model="selectedOrgnzNm">
-                <option value="">:: 소속기관선택 ::</option>
-                <option v-for="(value, key) in orgnzRows" :key="key" :value="value.name">
-                  {{ value.name }}
-                </option>
-                <option value="기타">기타</option>
-              </select>
+              <input type="email" class="form-control underline text-center" v-model.trim="formData.email" placeholder="예시)abc@gmail.com"/>
             </div>
-          </div>
+          </div>          
         </div>
       </div>
       <div class="row mb-5" v-if="!isSaving">
@@ -207,6 +197,7 @@ export default {
   name: 'SignupPage',
   data() {
     return {
+      IdSuffix: '@cu.com',
       formData: {
         login_id: '',
         birth: '',      
@@ -214,22 +205,18 @@ export default {
         name: '',
         weight: '',
         email: '',
-        gender: this.$Constants.Options.Gender['남자'],
-        is_medicine: this.$Constants.Options.YN.No.val,
-        is_disease: this.$Constants.Options.YN.No.val,
+        gender: this.$Constants.Options.Gender['남자'],        
         is_smoking: this.$Constants.Options.YN.No.val,
         daily_smoking_amt: '10',
         daily_water_amt: '250'        
-      },      
-      selectedOrgnzNm: '',
+      },            
       orgnzRows: {},
       saveData: null,
       isSaving: false,
       errorMsg: null
     }
   },
-  created() {    
-    this.selectedOrgnzNm = this.$route.query.orgnz_nm || ''
+  created() {
     this.loadOrgnzRows()
   },
   methods: {
@@ -239,9 +226,10 @@ export default {
       let itemsToMap = items.reduce((acc, item)=>{
         const obj = {
           id: item.pid,
+          code: item.code,
           name: item.name
         }
-        acc[obj.name] = obj
+        acc[item.code] = obj
         return acc
       }, {})      
       this.orgnzRows = itemsToMap      
@@ -250,6 +238,10 @@ export default {
       const formData = this.$Utils.cloneObject(this.formData)
       if(formData.login_id == ''){
         this.$toasted.show('아이디를 입력해 주세요')
+        return
+      }
+      if(!this.selectedOrgnz){
+        this.$toasted.show('소속(모집)기관을 찾을 수 없습니다. 로그인 아이디를 다시 확인해 주세요')
         return
       }
       if(formData.birth == ''){
@@ -273,13 +265,8 @@ export default {
         return
       }      
 
-      if(this.selectedOrgnzNm == ''){
-        this.$toasted.show('소속(모집)기관을 선택해 주세요')
-        return
-      }
-
       this.saveData = {
-        login_id: formData.login_id,
+        login_id: `${formData.login_id}${this.IdSuffix}`,
         login_pwd: formData.birth,
         birth: this.$Utils.dateFormat(this.ymdToDate(formData.birth), 'yyyy-MM-dd'),
         phone: formData.phone,
@@ -287,12 +274,12 @@ export default {
         weight: formData.weight,
         email: (formData.email == '') ? null : formData.email,
         gender: formData.gender,
-        is_disease: formData.is_disease,
-        is_medicine: formData.is_medicine,
+        is_disease: (this.isCIUser) ? 1 : 0,
+        is_medicine: (this.isCIUser) ? 1 : 0,
         is_smoking: formData.is_smoking,
         daily_smoking_amt: (formData.is_smoking == this.$Constants.Options.YN.Yes.val) ? formData.daily_smoking_amt : null,
         daily_water_amt: formData.daily_water_amt,
-        orgnz_id: (this.selectedOrgnzNm == '기타') ? this.orgnzRows['나무인텔리전스'].id : this.orgnzRows[this.selectedOrgnzNm].id
+        orgnz_id: this.selectedOrgnz.id
       }      
     },
     async onClickSaveConfirm() {
@@ -322,6 +309,23 @@ export default {
       const options = this.$Utils.cloneObject(this.$Constants.Options.SmokingAmt)
       delete options['0']
       return options
+    },
+    nickIdFromLoginId() {
+      const loginId = this.formData.login_id      
+      if(loginId == null || loginId.length != 8) return null
+      return loginId.replace(/\d/g, '')
+    },
+    extOrgnzCode() {           
+      if(this.nickIdFromLoginId == null || this.nickIdFromLoginId.length != 3) return null
+      return `${this.nickIdFromLoginId.charAt(0)}${this.nickIdFromLoginId.charAt(1)}`
+    },
+    selectedOrgnz() {     
+      return this.orgnzRows[this.extOrgnzCode]
+    },
+    isCIUser() {
+      if(this.nickIdFromLoginId == null || this.nickIdFromLoginId.length != 3) return false
+      const code = this.nickIdFromLoginId.charAt(2)
+      return (code == 'c')
     }
   }
 }

@@ -9,6 +9,8 @@ import SignupCompletePage from '@/views/users/SignupComplete.vue'
 import DailyIndexPage from '@/views/daily/Index.vue'
 import FoodIndexPage from '@/views/food/Index.vue'
 import FoodAddPage from '@/views/food/Add.vue'
+import FoodSearchPage from '@/views/food/Search.vue'
+import FoodBookmarkPage from '@/views/food/Bookmark.vue'
 import MypageIndexPage from '@/views/mypage/Index.vue'
 import InfoIndexPage from '@/views/info/Index.vue'
 import AuthenticatePage from '@/views/Authenticate.vue'
@@ -116,6 +118,18 @@ const routes = [
     path: '/food/menu',
     name: 'FoodsAdd',
     component: FoodAddPage,
+    beforeEnter: userAuthenticate   
+  },
+  {
+    path: '/food/search',
+    name: 'FoodSearch',
+    component: FoodSearchPage,
+    beforeEnter: userAuthenticate   
+  },  
+  {
+    path: '/food/bookmark',
+    name: 'FoodBookmark',
+    component: FoodBookmarkPage,
     beforeEnter: userAuthenticate   
   },  
   {

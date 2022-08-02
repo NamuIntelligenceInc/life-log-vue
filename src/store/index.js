@@ -46,9 +46,14 @@ export default new Vuex.Store({
       let bookmarkFoods = state.bookmark_foods
       const key = foodData.name
       if(bookmarkFoods[key]) return
-      foodData.created_ts = new Date().getTime()
-      bookmarkFoods[key] = foodData
-      localStorage.setItem('bookmark_foods', JSON.stringify(bookmarkFoods))      
+      const obj = {
+        name: foodData.name,
+        unit: foodData.unit,
+        unit_amt: foodData.unit_amt,
+        created_ts: new Date().getTime()
+      }      
+      bookmarkFoods[key] = obj
+      localStorage.setItem('bookmark_foods', JSON.stringify(bookmarkFoods))
       commit('setBookmarkFoods', Utils.cloneObject(bookmarkFoods))
     },
     removeBookmarkFood({state, commit}, foodName) {      

@@ -36,7 +36,8 @@
                 <button type="button" class="btn btn-block btn-secondary mb-1" @click="selectDoNotEat=key">
                   먹지 않았습니다
                 </button>
-                <router-link :to="`/food/menu?attid=${attainId}&fid=${dailyFood.food_id}&date=${dailyFood.target_dt}&type=${key}`" type="button" class="btn btn-block btn-primary">
+                <router-link :to="`/food/menu?attid=${attainId}&fid=${dailyFood.food_id}&date=${dailyFood.target_dt}&type=${key}`" 
+                 class="btn btn-block btn-primary">
                   메뉴를 추가하겠습니다
                 </router-link>                  
               </div>                            
@@ -44,11 +45,11 @@
             <div class="card-body pt-0" v-else-if="value.is_eating == 1">
               <div class="p-1 pl-3 pr-3" v-for="(item, index) of value.items" :key="index">
                 <div class="row">
-                  <div class="col-9">                      
+                  <div class="col-8">                      
                     {{ index + 1 }}.
                     <strong>{{ item.name }}</strong>
                   </div>
-                  <div class="col-3">
+                  <div class="col-4">
                     <strong class="text-primary">{{ item.amount }}</strong> <small> {{ item.unit_nm }} </small>
                   </div>
                 </div>
@@ -84,7 +85,7 @@ export default {
     this.loadDailyFoods()
   },
   mounted() {
-    
+    localStorage.removeItem('selected_foods')
   },
   methods: {
     async onDoNotEat() {

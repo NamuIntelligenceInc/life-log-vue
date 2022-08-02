@@ -29,6 +29,7 @@
           </div>
           <div class="mb-3">
             혹시 <strong class="text-primary">건강위험평가(HRA)설문</strong>에 참여하셨나요?
+            <br>참여하지 않으셨다면 설문에 참여해 주세요.
           </div>
           <a target="_blank" class="btn btn-lg btn-block btn-link" :href="$Constants.HRALink">
             <i class="mdi mdi-hand-pointing-right"></i>

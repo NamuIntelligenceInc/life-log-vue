@@ -22,18 +22,18 @@
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">
           <div class="row">
-            <div class="col-6 pr-1">
-              <button type="button" class="btn btn-block" @click="onClickOpenSearch()">
+            <div class="col-6 pr-1">              
+              <router-link class="btn btn-block" :to="`/food/search`">
                 <i class="mdi mdi-cloud-search-outline"></i> 검색
-              </button>
+              </router-link>
             </div>
-            <div class="col-6 pl-1">
-              <button type="button" class="btn btn-block" @click="onClickOpenBookmark()">
+            <div class="col-6 pl-1">              
+              <router-link class="btn btn-block" :to="`/food/bookmark`">
                 <i class="mdi mdi-star"></i> 자주
                 <span class="badge badge-success">
                   {{ Object.keys(bookmarkedFoods).length }}
                 </span>
-              </button>              
+              </router-link>
             </div>            
           </div>
           <hr>          
@@ -60,7 +60,7 @@
             <div v-else class="p-3 text-center text-secondary">
               <i class="mdi mdi-information"></i>
               식사하신 음식을 등록해 주세요
-              <br>최대 5개까지 등록 가능합니다
+              <br>최대 {{maxChioceCount}}개까지 등록 가능합니다
             </div>
           </div>
           <div class="row mt-5 mb-5" v-if="!isSaving">
@@ -83,32 +83,23 @@
       </div>
     </div>    
     <confirm-modal v-if="removeChoicedItemKey" :msg="`<strong class='text-primary'>${removeChoicedItemKey}</strong> 메뉴를 제외하시겠습니까?`" 
-      @on-close="removeChoicedItemKey=null" @on-confirm="$delete(choicedFoods, removeChoicedItemKey);removeChoicedItemKey=null"/>
-    <bookmark-bottom-sheet :show="openBookmark" 
-      :selected-foods="Object.keys(choicedFoods)" 
-      :selectable-count="maxChioceCount - Object.keys(choicedFoods).length"
-      @on-append="onAppendFoods"/>
-    <search-bottom-sheet :show="openSearch" :selectable-count="maxChioceCount - Object.keys(choicedFoods).length" @on-append="onAppendFoods"/>
+      @on-close="removeChoicedItemKey=null" @on-confirm="$delete(choicedFoods, removeChoicedItemKey);removeChoicedItemKey=null"/>    
     <confirm-modal v-if="saveConfirmMsg" :msg="saveConfirmMsg" @on-close="saveConfirmMsg=null" @on-confirm="onSave()"/>    
   </div>
 </template>
 
 <script>
 import FoodItem from './vues/FoodItem.vue'
-import BookmarkBottomSheet from './vues/BookmarkBSheet.vue'
-import SearchBottomSheet from './vues/SearchBSheet.vue'
 export default {
   name: 'FoodAddPage',
   components: {    
-    FoodItem,
-    BookmarkBottomSheet,
-    SearchBottomSheet
+    FoodItem    
   },
   data() {
     return {
       attainId: null,
       foodId: null,
-      maxChioceCount: 5,
+      maxChioceCount: this.$Constants.SelectedFoodsLimit,
       inputDate: null,
       inputType: null,
       foodKeyword: null,
@@ -126,19 +117,15 @@ export default {
     this.inputType = this.$route.query.type
   },
   mounted() {
-    this.$store.dispatch('loadBookmarkFoods')    
-  },
-  beforeRouteLeave(to, from, next) {
-    if(this.isCanRouteLeave){
-      return next()
-    }    
-    if (confirm('이 사이트에서 나가시겠습니까?\n변경사항이 저장되지 않을 수 있습니다.')) {
-      next()
-    }else{
-      window.history.pushState(null, null, null)
-    }
-  },
-  methods: {        
+    this.$store.dispatch('loadBookmarkFoods')
+    this.loadSavedFoods()
+  },  
+  methods: {
+    loadSavedFoods() {
+      let foods = localStorage.getItem('selected_foods')
+      foods = (foods) ? JSON.parse(foods) : {}
+      this.choicedFoods = foods
+    },     
     onInputFoodItem(evt) {
       this.foodKeyword = evt.target.value
     },
@@ -170,44 +157,17 @@ export default {
       }
       this.$toasted.success('식사 메뉴가 등록되었습니다')
       this.$router.go(-1)
-    },    
-    onClickOpenBookmark() {      
-      if(this.openBookmark) return
-      this.$router.push({path: this.$route.path, query: this.$route.query, hash: '#bookmark'})
-    },
-    onClickOpenSearch() {
-      if(this.openSearch) return
-      this.$router.push({path: this.$route.path, query: this.$route.query, hash: '#searchFood'})
-    },    
-    onAppendFoods(foods) {   
-      const foodNames = Object.keys(foods)   
-      if(foodNames.length == 0) return    
-      for(let i=0; i<foodNames.length; i++) {
-        const foodName = foodNames[i]
-        const value = foods[foodName]        
-        if(this.choicedFoods[foodName]) continue
-        value.amount = 1
-        this.$set(this.choicedFoods, foodName, value)
-      }      
-    }   
+    },        
   },
   computed: {
     bookmarkedFoods() {
       return this.$store.getters['getBookmarkFoods']
-    },
-    openBookmark() {
-      const bookmarkHash = this.$route.hash
-      if(!bookmarkHash) return false
-      return bookmarkHash == '#bookmark'
-    },
-    openSearch() {
-      const searchHash = this.$route.hash
-      if(!searchHash) return false
-      return searchHash == '#searchFood'
-    }   
+    }    
   },
   watch: {
-    
+    choicedFoods(val) {
+      localStorage.setItem('selected_foods', JSON.stringify(val))
+    }
   }
 }
 </script>

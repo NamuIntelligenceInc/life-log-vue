@@ -1,7 +1,15 @@
+const Coordinators = {
+  '조문희': '01095062711',
+  '국현지': '01096382711',
+  '장차희': '01095622711',
+  '이진옥': '01098172711',
+}
+
 export default {
   DailyRewardPrice: 3000, 
+  SelectedFoodsLimit: 5,
   HRALink: 'https://namuintelligence.surveysparrow.com/s/HRA---3/tt-1d4d6eda94',
-  KakaoChatLink: 'http://pf.kakao.com/_qNVtb/chat',
+  KakaoChatLink: 'http://pf.kakao.com/_xilxoDb/chat',
   Options: {
     SmokingAmt: {
       '0':'피우지 않음',
@@ -88,26 +96,25 @@ export default {
     snack: '간식'
   },
   Managers: {
-    '전남대학교병원-1':'01095062711',
-    '전남대학교병원-0':'01096382711',
-    '부산대학교병원-1':'01095622711',
-    '부산대학교병원-0':'01096382711',
-    '전북대학교병원-1':'01095062711',
-    '전북대학교병원-0':'01098172711',
-    '화순전남대병원-1':'01095622711',
-    '화순전남대병원-0':'01098172711',
-    '씨젠의료재단-0':'01098172711',
-    '다온요양병원-0':'01098172711',
-    '전남대학교-0':'01098172711',
-    'UNIST-0':'01098172711',
-    '조선대학교-0':'01098172711',
-    '스마트인재개발원-0':'01098172711',
-    '광주테크노파크-0':'01098172711',
-    '국가정보자원관리원-0':'01098172711',
-    '나무인텔리전스-0':'01098172711',
-    '나무기술계열사-0':'01098172711',
-    '이루온아이앤에스-0':'01098172711',
-    '커넥티드-0':'01098172711'
+    '전남대학교병원-1': Coordinators['조문희'],
+    '전남대학교병원-0': Coordinators['국현지'],
+    '부산대학교병원-1': Coordinators['장차희'],
+    '부산대학교병원-0': Coordinators['국현지'],
+    '전북대학교병원-1': Coordinators['조문희'],
+    '전북대학교병원-0': Coordinators['이진옥'],
+    '화순전남대병원-1': Coordinators['장차희'],
+    '화순전남대병원-0': Coordinators['이진옥'],
+    '씨젠의료재단-0': Coordinators['이진옥'],    
+    '전남대학교-0': Coordinators['이진옥'],
+    'UNIST-0': Coordinators['조문희'],
+    '조선대학교-0': Coordinators['장차희'],
+    '스마트인재개발원-0': Coordinators['이진옥'],
+    '광주테크노파크-0': Coordinators['국현지'],    
+    '나무인텔리전스-0': Coordinators['국현지'],
+    '나무기술계열사-0': Coordinators['국현지'],
+    '이루온아이앤에스-0': Coordinators['국현지'],
+    '다온요양병원-0': Coordinators['이진옥'],
+    'I-PLEX-0': Coordinators['장차희']
   },
   ErrMessages: {
     '401': '접근 권한이 없이 페이지 입니다',

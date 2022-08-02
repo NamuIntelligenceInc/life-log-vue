@@ -68,7 +68,7 @@
               </table>
             </div>
           </div>
-          <div class="row mb-3">
+          <div class="row mb-3" v-else>
             <label class="col-4 col-form-label">
               <i class="mdi mdi-medical-bag"></i>
               복약여부

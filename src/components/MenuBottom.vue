@@ -19,9 +19,9 @@
               <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/mypage')">
                 <i class="mdi mdi-account-circle-outline"></i> 마이페이지
               </a>
-              <!-- <a target="_blank" :href="$Constants.KakaoChatLink" class="list-group-item list-group-item-action pl-5 text-left">
+              <a target="_blank" :href="$Constants.KakaoChatLink" class="list-group-item list-group-item-action pl-5 text-left">
                 <i class="mdi mdi-chat-processing-outline"></i> 고객센터( 카카오톡 )
-              </a> -->
+              </a>
               <a target="_blank" :href="`tel:${managerPhoneNumber}`" class="list-group-item list-group-item-action pl-5 text-left" :class="{'disabled': !managerPhoneNumber}">
                 <i class="mdi mdi-phone-in-talk"></i> 고객센터( 전화 )
                 <div v-if="!managerPhoneNumber">
