@@ -127,6 +127,13 @@ label{
 }
 
 
+.nav{
+  &-divider{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  }
+}
+
+
 @media only screen and (max-width: 600px) {
   .toasted-container {
     &.bottom-center {

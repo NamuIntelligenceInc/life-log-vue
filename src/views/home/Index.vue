@@ -53,6 +53,34 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">          
+          <router-link v-if="firstExInfo" :to="`/info?title=1차 임상검사&date=${firstExInfo.date}&place=${firstExInfo.place}`" class="btn btn-block mb-3" 
+            :class="{'btn-success': (firstExInfo.remain_day > 3), 'btn-danger': (firstExInfo.remain_day <= 3) }">
+            <div v-if="firstExInfo.remain_day > 0">
+              <p class="mb-1">1차 임상검사까지 <strong>{{ firstExInfo.remain_day }}일</strong> 남았습니다.</p>
+              <i class="mdi mdi-hand-pointing-right"></i> 터치 후 임상검사정보를 확인해 주세요
+            </div>
+            <div v-else>
+              <p>
+                오늘은 1차임상검사 당일입니다.
+                터치 하셔서 임상검사정보 확인 후 꼭 임상검사에 참여해 주세요
+              </p>
+              <i class="mdi mdi-hand-pointing-up"></i> 클릭
+            </div>            
+          </router-link>
+          <router-link v-if="secExInfo" :to="`/info?title=2차 임상검사&date=${secExInfo.date}&place=${secExInfo.place}`" class="btn btn-block mb-3" 
+            :class="{'btn-success': (secExInfo.remain_day > 3), 'btn-danger': (secExInfo.remain_day <= 3) }">
+            <div v-if="secExInfo.remain_day > 0">
+              <p class="mb-1">2차 임상검사까지 <strong>{{ secExInfo.remain_day }}일</strong> 남았습니다.</p>
+              <i class="mdi mdi-hand-pointing-right"></i> 터치 후 임상검사정보를 확인해 주세요
+            </div>
+            <div v-else>
+              <p>
+                오늘은 2차임상검사 당일입니다.
+                터치 하셔서 임상검사정보 확인 후 꼭 임상검사에 참여해 주세요
+              </p>
+              <i class="mdi mdi-hand-pointing-up"></i> 클릭
+            </div>            
+          </router-link>
           <div v-if="dailyAttainList">
             <daily-card v-for="(value, key) of dailyAttainList" :key="key" 
               :payload="value"
@@ -159,7 +187,7 @@ export default {
       }else{
         this.$router.push({path: this.$route.path, query: this.$route.query, hash: '#menu'})
       }
-    }   
+    }    
   },
   computed: {
     openMenu() {
@@ -167,7 +195,7 @@ export default {
       if(!bookmarkHash) return false
       return bookmarkHash == '#menu'
     },
-    userProfile() {
+    userProfile() {      
       return this.$store.getters['getUserProfile']
     },    
     isAllLoaded() {            
@@ -175,7 +203,33 @@ export default {
       const diff = this.$Utils.diffDays(new Date(), startDt)
       const loadedSize = (this.dailyAttainList) ? Object.keys(this.dailyAttainList).length : 0      
       return (diff + 1) == loadedSize
-    }    
+    },
+    firstExInfo() {
+      if(!this.userProfile || !this.userProfile.first_ex_dt) return null
+      const targetDt = new Date(this.userProfile.first_ex_dt)
+      const targetPlace = this.userProfile.first_ex_place      
+      if(!targetDt || !targetPlace) return null
+      const diff = this.$Utils.diffDays(targetDt, new Date())      
+      if(!(diff >= 0 && diff <= 7)) return null
+      return {
+        date: this.userProfile.first_ex_dt,
+        remain_day: diff,
+        place: targetPlace    
+      }
+    },
+    secExInfo() {
+      if(!this.userProfile || !this.userProfile.sec_ex_dt) return null
+      const targetDt = new Date(this.userProfile.sec_ex_dt)
+      const targetPlace = this.userProfile.sec_ex_place      
+      if(!targetDt || !targetPlace) return null
+      const diff = this.$Utils.diffDays(targetDt, new Date())      
+      if(!(diff >= 0 && diff <= 7)) return null
+      return {
+        date: this.userProfile.sec_ex_dt,
+        remain_day: diff,
+        place: targetPlace    
+      }
+    }   
   }
 }
 </script>

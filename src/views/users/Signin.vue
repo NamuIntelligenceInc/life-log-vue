@@ -24,13 +24,19 @@
               </span>
             </div>
             <input type="password" class="form-control no-border text-center" v-model.trim="inputPwd" placeholder="비밀번호(생년월일 8 자리)" autocomplete="off" @keyup.enter="onClickSignin()">
-          </div>           
+          </div>
+          <div class="text-white mb-4">
+            테스트기간이 종료되었습니다.
+            <br><strong>8월 3일 17시 10분 이전 가입 사용자</strong> 분들은
+            <br>다시 가입 후 이용해주세요.
+            <br>사용에 불편을 드려 대단히 죄송합니다
+          </div>
           <a target="_blank" :href="$Constants.KakaoChatLink" class="text-left btn btn-block text-white pl-0">
             고객센터( 카카오톡 ) 바로가기 <i class="mdi mdi-hand-pointing-left"></i>
           </a>
           <div class="text-white mb-4">
-            회원이 아니시면 회원가입을 진행해 주세요
-          </div>
+            초기 회원가입 후 로그인해주세요
+          </div>          
           <div class="row">
             <div class="col-6 pr-1">
               <router-link :to="'/signup'" class="btn btn-block bg-white text-primary">
