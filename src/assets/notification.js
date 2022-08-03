@@ -11,7 +11,7 @@ export default [
       지금 설문참여하기
     </a>
     `,
-    created_dt: '2022-07-29'
+    created_dt: '2022-08-04'
   },
   {
     title: '앱을 더 편리하게 사용하는 방법',
@@ -26,6 +26,6 @@ export default [
       아이폰 홈화면 추가하기      
     </a>
     `,
-    created_dt: '2022-07-29'
+    created_dt: '2022-08-04'
   }
 ]

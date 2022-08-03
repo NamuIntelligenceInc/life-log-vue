@@ -24,9 +24,9 @@
     <div class="container" v-if="userStatus">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto p-0">
-          <router-link class="btn btn-block btn-link text-white text-center" :to="'/notice'">
+          <router-link class="btn btn-block btn-link text-white text-left" :to="'/notice'">
             <i class="mdi mdi-information"></i>
-            공지사항을 꼭 확인해 주세요 <i class="mdi mdi-hand-pointing-left"></i> 클릭
+            8월 5일 공지사항 입니다 <i class="mdi mdi-hand-pointing-left"></i> 클릭
           </router-link>
           <div class="p-3 text-white">
             <div class="mb-2">미션 종료까지 <strong>{{ userStatus.remain_day }}</strong>일 남았습니다</div>
