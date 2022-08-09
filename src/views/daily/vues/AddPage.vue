@@ -95,42 +95,56 @@
               기상시간
             </label>
             <div class="col-12">
-              <div class="row">                
-                <div class="col pr-1">                      
-                  <select class="form-control underline text-center"
-                    ref="awakeHours" 
-                    v-model.trim="awakeForm.hours"
-                    :disabled="getAwakeHoursOptions.length == 0">
+              <div class="row">
+                <div class="col pr-1">
+                  <select class="form-control underline text-center" v-model="awakeForm.type" @change="awakeForm.hours='';awakeForm.hours=''">
+                    <option v-for="(item, index) of Object.keys(bedOptions)" :key="index" :value="item">
+                      {{ item }}
+                    </option>                        
+                  </select>
+                </div>
+                <div class="col pr-1 pl-1">                      
+                  <select class="form-control underline text-center" 
+                    ref="awakeHours"                     
+                    v-model.trim="awakeForm.hours">
                     <option value="">:: 시간 ::</option>
-                    <option v-for="(item, index) in getAwakeHoursOptions" :key="index" :value="item">
+                    <option v-for="(item, index) of bedOptions[awakeForm.type]" :key="index" :value="item">
                       {{ $Utils.getSeepHoursLabel(item) }}
                     </option>
                   </select>
                 </div>
-                <div class="col pl-1">                  
-                  <select class="form-control underline text-center" ref="selectAwakeMins" 
-                    :disabled="getAwakeHoursOptions.length == 0"
+                <div class="col pl-1">
+                  <select class="form-control underline text-center" 
+                    ref="selectAwakeMins"                     
                     v-model.trim="awakeForm.mins">                    
                     <option v-for="(item, index) of getMinsOptions" :key="index" :value="item">
                       {{ item }} 분
                     </option>
-                  </select>
+                  </select>                  
                 </div>
               </div>
             </div>
-          </div>
+          </div>          
           <div class="row mb-5">
             <label class="col-12 col-form-label">
               <i class="mdi mdi-sleep"></i>
-              총 수면시간 <small v-if="!sleepTime">(취침시간과 기상시간을 모두 입력해 주세요)</small>
+              총 수면시간 <small v-if="!sleepTime">(취침시간과 기상시간을 모두 선택해 주세요)</small>
             </label>
             <div class="col-md-8 col-6 text-right ml-auto">
               <div class="form-control underline">
                 <span v-if="sleepTime">
-                  <strong class="text-primary">{{ sleepTime.hours }}</strong>
-                  <small>시간</small>&nbsp;
-                  <strong class="text-primary">{{ sleepTime.mins }}</strong>
-                  <small>분</small>&nbsp;
+                  <span v-if="sleepTime.hours >= 0">
+                    <strong class="text-primary">{{ sleepTime.hours }}</strong>
+                    <small>시간</small>&nbsp;
+                    <strong class="text-primary">{{ sleepTime.mins }}</strong>
+                    <small>분</small>&nbsp;
+                  </span>
+                  <span class="text-danger" v-else>
+                    <strong>{{ sleepTime.hours }}</strong>
+                    <small>시간</small>&nbsp;
+                    <strong>{{ sleepTime.mins }}</strong>
+                    <small>분</small>&nbsp;
+                  </span>
                 </span>                
               </div>              
             </div>            
@@ -278,15 +292,16 @@ export default {
       inputWeight: '',
 
       bedOptions: {
-        '어제': [24,23,22,21,20,19,18,17,16,15,14,13],
-        '오늘': [1,2,3,4,5,6,7,8,9,10,11,12]
+        '어제': [24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8],
+        '오늘': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
       },
       bedForm: { 
         type: '어제',       
         hours: '',
         mins: '0'
       },
-      awakeForm: {        
+      awakeForm: {
+        type: '오늘',
         hours: '',
         mins: '0'
       },
@@ -317,7 +332,12 @@ export default {
       }
 
       if(!this.sleepTime) {
-        this.$toasted.error('취침시간과 기상시간을 모두 입력해 주세요')
+        this.$toasted.error('취침시간과 기상시간을 모두 선택해 주세요')
+        return false
+      }
+
+      if(this.sleepTime.hours < 0){
+        this.$toasted.error('취침시간 및 기상시간을 다시 확인해 주세요')
         return false
       }
 
@@ -366,7 +386,7 @@ export default {
       
       this.resultData = reqBody      
     },
-    async onSave() {
+    async onSave() {      
       localStorage.setItem('latest_weight', this.inputWeight)
       this.isSaving = true
       let response = await this.$Api.post(`/api/attains/${this.attainId}/daily`, this.resultData)
@@ -387,7 +407,7 @@ export default {
       let bedType  = this.bedForm.type
       let bedHours = this.bedForm.hours
       let bedMins  = this.bedForm.mins
-      if(bedHours == '' || bedMins == '') return null      
+      if(bedHours == '') return null      
       const bedDt  = new Date(this.date)
       if(bedType == '어제'){
         bedDt.setDate(bedDt.getDate() - 1)
@@ -397,10 +417,14 @@ export default {
       return bedDt
     },
     awakeDate() {
+      let awakeType  = this.awakeForm.type
       let awakeHours = this.awakeForm.hours
       let awakeMins  = this.awakeForm.mins
-      if(awakeHours == '' || awakeMins == '') return null      
+      if(awakeHours == '') return null      
       const awakeDt  = new Date(this.date)
+      if(awakeType == '어제'){
+        awakeDt.setDate(awakeDt.getDate() - 1)
+      }
       awakeDt.setHours(Number(awakeHours))
       awakeDt.setMinutes(Number(awakeMins))
       return awakeDt
@@ -414,23 +438,23 @@ export default {
         mins: diffMins - (resultHours * 60)
       }
     },    
-    getAwakeHoursOptions() {
-      if(!this.bedDate) return []
-      let hours = []
-      for(let i=1; i<=23; i++) {
-        hours.push(i)
-      }
-      const bedType = this.bedForm.type
-      const startHours = Number(this.bedForm.hours)
-      if(bedType == '오늘'){
-        hours = hours.reduce((acc, item)=>{
-          if(item <= startHours) return acc
-          acc.push(item)
-          return acc
-        }, [])
-      }      
-      return hours
-    },
+    // getAwakeHoursOptions() {
+    //   if(!this.bedDate) return []
+    //   let hours = []
+    //   for(let i=1; i<=23; i++) {
+    //     hours.push(i)
+    //   }
+    //   const bedType = this.bedForm.type
+    //   const startHours = Number(this.bedForm.hours)
+    //   if(bedType == '오늘'){
+    //     hours = hours.reduce((acc, item)=>{
+    //       if(item <= startHours) return acc
+    //       acc.push(item)
+    //       return acc
+    //     }, [])
+    //   }      
+    //   return hours
+    // },
     getMinsOptions() {
       let mins = []
       for(let i=0; i<=50; i+=10) {
