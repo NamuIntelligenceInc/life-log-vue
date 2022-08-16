@@ -7,11 +7,12 @@
             <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
               <i class="mdi mdi-arrow-left"></i>
               <span class="ml-3" v-if="inputDate">
-                {{ $Utils.dateFormat(new Date(inputDate), 'yyyy.M.d') }} 
+                {{ $Utils.dateFormat(new Date(inputDate), 'yyyy.M.d') }}
+                ({{ $Utils.dayOfWeek(new Date(inputDate)) }}요일)                
                 <span v-if="inputType">
-                  {{ $Constants.EatTypes[inputType] }}
+                  {{ $Constants.EatTypes[inputType] }} 식사
                 </span>
-                식사 메뉴 등록
+                <small>메뉴 등록</small>
               </span>
             </button>
           </div>

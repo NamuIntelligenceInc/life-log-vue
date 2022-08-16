@@ -3,6 +3,10 @@
     <div class="container pt-3 pb-3">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">
+          <div class="mt-3 mb-3 text-primary">
+            <i class="mdi mdi-information-outline"></i>
+            원하시는 항목이 없을 시 근사한 수치를 선택해 주세요
+          </div>
           <div class="row mb-3" v-if="userProfile.is_smoking">
             <label class="col-6 col-form-label">
               <i class="mdi mdi-smoke"></i>
@@ -292,16 +296,16 @@ export default {
       inputWeight: '',
 
       bedOptions: {
-        '어제': [24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8],
-        '오늘': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+        '전날': [24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8],
+        '당일': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
       },
       bedForm: { 
-        type: '어제',       
+        type: '전날',       
         hours: '',
         mins: '0'
       },
       awakeForm: {
-        type: '오늘',
+        type: '당일',
         hours: '',
         mins: '0'
       },
@@ -409,7 +413,7 @@ export default {
       let bedMins  = this.bedForm.mins
       if(bedHours == '') return null      
       const bedDt  = new Date(this.date)
-      if(bedType == '어제'){
+      if(bedType == '전날'){
         bedDt.setDate(bedDt.getDate() - 1)
       }
       bedDt.setHours(Number(bedHours))
@@ -422,7 +426,7 @@ export default {
       let awakeMins  = this.awakeForm.mins
       if(awakeHours == '') return null      
       const awakeDt  = new Date(this.date)
-      if(awakeType == '어제'){
+      if(awakeType == '전날'){
         awakeDt.setDate(awakeDt.getDate() - 1)
       }
       awakeDt.setHours(Number(awakeHours))

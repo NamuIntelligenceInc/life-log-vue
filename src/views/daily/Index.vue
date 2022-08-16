@@ -7,7 +7,9 @@
             <button type="button" class="btn text-left text-white" @click="$router.push('/home')">
               <i class="mdi mdi-arrow-left"></i>
               <span class="ml-3" v-if="dailyData">
-                {{ $Utils.dateFormat(new Date(dailyData.target_dt), 'yyyy.M.d') }} 일일 데이터
+                {{ $Utils.dateFormat(new Date(dailyData.target_dt), 'yyyy.M.d') }}
+                ({{ $Utils.dayOfWeek(new Date(dailyData.target_dt)) }}요일)
+                일일 데이터
               </span>
             </button>
           </div>

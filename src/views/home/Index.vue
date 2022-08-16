@@ -37,9 +37,9 @@
                 </div>
               </div>
               <div class="col-6 text-right">
-                <h2 class="mb-0">
+                <h2 class="mb-0" v-if="userProfile">
                   <animated-number
-                    :value="userStatus.succ_cnt * $Constants.DailyRewardPrice"
+                    :value="userStatus.succ_cnt * userProfile.daily_reward_amt"
                     :round="1"
                     :formatValue="$Utils.numberWithComma"
                     :duration="500"/>
