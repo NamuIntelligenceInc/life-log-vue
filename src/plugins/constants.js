@@ -5,14 +5,13 @@ const Coordinators = {
   '이진옥': '01098172711',
 }
 
-export default {
-  DailyRewardPrice: 3000, 
+export default {  
   SelectedFoodsLimit: 5,
   HRALink: 'https://namuintelligence.surveysparrow.com/s/HRA---3/tt-1d4d6eda94',
   KakaoChatLink: 'http://pf.kakao.com/_xilxoDb/chat',
   Options: {
     SmokingAmt: {
-      '0':'피우지 않음',
+      '0':'피우지 않음',      
       '10':'반갑 (10 개비)',
       '20':'한갑 (20 개비)',
       '30':'한갑 반 (30 개비)',
