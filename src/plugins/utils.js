@@ -13,6 +13,9 @@ export default {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     return parts.join('.')    
   },
+  isContainSpecialChar(str) {
+    return /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g.test(str)    
+  },
   onInputNumberLimitLen(evt) {
     const value = evt.target.value    
     const maxLen = evt.target.getAttribute('maxlength')

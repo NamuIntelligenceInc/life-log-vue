@@ -36,7 +36,7 @@
       <div class="container search-results">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto p-1">            
-            <div v-if="searchResults">
+            <div class="mb-3" v-if="searchResults">
               <div class="list-group" v-if="searchResults.length > 0">
                 <a href="javascript:;" class="list-group-item list-group-item-action text-center" v-for="(item, index) of searchResults" :key="index" @click="onClickSelectItem($Utils.cloneObject(item))">
                   <span v-if="!item.is_input" v-html="hightLightText(inputKeyword, item.name)"></span>
@@ -61,7 +61,16 @@
                   <span class="pr-3">{{ value.name }}</span> <i class="mdi mdi-close"></i>
                 </button>
               </div>
-            </div>
+              <div class="text-center">
+                <span class="text-danger">
+                  <i class="mdi mdi-information"></i> 하나의 음식명만 입력해서 선택해 주세요
+                </span>
+                <br> <span class="text-danger">파김치40g (x)</span>
+                <br> <span class="text-primary">파김치 (o)</span>
+                <br> <span class="text-danger">녹차라떼1.사이다1/2컵 (x)</span>
+                <br> <span class="text-primary">녹차라떼 (o)</span>
+              </div>
+            </div>            
           </div>
         </div>
       </div>      
@@ -105,7 +114,7 @@ export default {
       }
       this.loadSearchRows()
     },
-    onClickSelectItem(data) {
+    onClickSelectItem(data) {      
       if((this.selectableCount - this.selectedFoods.length) <= 0){
         this.searchRows = []
         this.inputKeyword = ''
@@ -114,7 +123,12 @@ export default {
         return
       }
 
-      data.name = data.name.replace(/ /g, '')      
+      data.name = data.name.replace(/ /g, '')            
+      if(this.$Utils.isContainSpecialChar(data.name)){
+        this.$toasted.error('특수문자는 포함될 수 없습니다.<br>음식명만 입력해 주세요.')
+        return
+      }
+
       if(this.selectedFoods[data.name] || this.alreadySelected[data.name]) {
         this.searchRows = []
         this.inputKeyword = ''

@@ -108,6 +108,12 @@ export default {
             unit_amt: foodData.unit_amt,
             amount: 1
           }
+
+          if(this.$Utils.isContainSpecialChar(foodData.name)){
+            this.$toasted.error('특수문자는 포함될 수 없습니다.<br>음식명만 선택가능합니다.')
+            return
+          }
+
           this.$set(this.newSelectedFoods, foodData.name, obj)
         }        
       }
