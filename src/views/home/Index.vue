@@ -21,25 +21,25 @@
       </div>
     </nav>
     <div class="pb-4 pt-5"></div>
-    <div class="container" v-if="userStatus">
+    <div class="container">
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto p-0">
           <router-link class="btn btn-block btn-link text-white text-left" :to="'/notice'">
             <i class="mdi mdi-information"></i>
             8월 5일 공지사항 입니다 <i class="mdi mdi-hand-pointing-left"></i> 클릭
           </router-link>
-          <div class="p-3 text-white">
-            <div class="mb-2">미션 종료까지 <strong>{{ userStatus.remain_day }}</strong>일 남았습니다</div>
-            <div class="row">
+          <div class="p-3 text-white" v-if="userProfile">
+            <div class="mb-2">미션 종료까지 <strong>{{ remainDays }}</strong>일 남았습니다</div>
+            <div class="row" v-if="userSuccessCnt != null">
               <div class="col-6">
                 <div class="d-flex h-100 align-items-end">
                   <h4 class="mb-0">누적포인트 </h4>
                 </div>
               </div>
               <div class="col-6 text-right">
-                <h2 class="mb-0" v-if="userProfile">
+                <h2 class="mb-0">
                   <animated-number
-                    :value="userStatus.succ_cnt * userProfile.daily_reward_amt"
+                    :value="userSuccessCnt * userProfile.daily_reward_amt"
                     :round="1"
                     :formatValue="$Utils.numberWithComma"
                     :duration="500"/>
@@ -108,12 +108,12 @@ export default {
     return {      
       dailyAttainList: null,      
       navbarHeight: 0,
-      userStatus: null,      
+      userSuccessCnt: null,      
     }
   },
   created() {
     this.init()
-    this.loadUserStatus()    
+    this.loadUserSuccessCount()    
   },
   mounted() {
     this.$nextTick(()=>{      
@@ -144,9 +144,9 @@ export default {
       
       return dateList.reverse()
     },
-    async loadUserStatus() {
-      let response = await this.$Api.get('/api/users/status')
-      this.userStatus = response.status      
+    async loadUserSuccessCount() {
+      let response = await this.$Api.get('/api/users/nos')         
+      this.userSuccessCnt = response.success_cnt      
     },
     async loadDailyAttainRows(dates) {
       const reqParams = {
@@ -198,11 +198,9 @@ export default {
     userProfile() {      
       return this.$store.getters['getUserProfile']
     },    
-    isAllLoaded() {            
-      const startDt = new Date(this.userProfile.start_dt)
-      const diff = this.$Utils.diffDays(new Date(), startDt)
-      const loadedSize = (this.dailyAttainList) ? Object.keys(this.dailyAttainList).length : 0      
-      return (diff + 1) == loadedSize
+    remainDays() {
+      if(!this.userProfile) return 0
+      return this.$Utils.diffDays(new Date(this.userProfile.end_dt), new Date(this.userProfile.start_dt))
     },
     firstExInfo() {
       if(!this.userProfile || !this.userProfile.first_ex_dt) return null
