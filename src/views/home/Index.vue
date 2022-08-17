@@ -200,7 +200,7 @@ export default {
     },    
     remainDays() {
       if(!this.userProfile) return 0
-      return this.$Utils.diffDays(new Date(this.userProfile.end_dt), new Date(this.userProfile.start_dt))
+      return this.$Utils.diffDays(new Date(this.userProfile.end_dt), new Date())
     },
     firstExInfo() {
       if(!this.userProfile || !this.userProfile.first_ex_dt) return null
