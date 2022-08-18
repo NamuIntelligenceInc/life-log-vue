@@ -69,6 +69,8 @@ export default {
   },
   mounted() {
     this.$cookies.remove('token')
+    this.inputId = this.$route.query.login_id || ''
+    this.inputPwd = this.$route.query.login_pwd || ''
   },
   methods: {
     async onClickSignin() {
