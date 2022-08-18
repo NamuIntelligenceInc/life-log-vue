@@ -1,6 +1,6 @@
 <template>
   <div class="home-page bg-primary pl-2 pr-2 pb-2" :style="{minHeight: `${screenHeight}px`}">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top m-0 bg-primary" ref="navbar" style="border-bottom: 1px solid rgba(255,255, 255, .5)">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top m-0 bg-primary nav-divider" ref="navbar">
       <div class="container d-block">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
@@ -33,17 +33,17 @@
             <div class="row" v-if="userSuccessCnt != null">
               <div class="col-6">
                 <div class="d-flex h-100 align-items-end">
-                  <h4 class="mb-0">누적포인트 </h4>
+                  <h4 class="mb-0">누적보상 </h4>
                 </div>
               </div>
               <div class="col-6 text-right">
-                <h2 class="mb-0">
+                <h4 class="mb-0">
                   <animated-number
                     :value="userSuccessCnt * userProfile.daily_reward_amt"
                     :round="1"
                     :formatValue="$Utils.numberWithComma"
                     :duration="500"/>
-                </h2>
+                </h4>
               </div>
             </div>
           </div>
