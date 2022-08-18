@@ -30,22 +30,25 @@
           </router-link>
           <div class="p-3 text-white" v-if="userProfile">
             <div class="mb-2">미션 종료까지 <strong>{{ remainDays }}</strong>일 남았습니다</div>
-            <div class="row" v-if="userSuccessCnt != null">
-              <div class="col-6">
-                <div class="d-flex h-100 align-items-end">
-                  <h4 class="mb-0">누적보상 </h4>
+            <router-link :to="`/mypage/rewards`" class="btn btn-block text-white" v-if="sumUserRewards != null">
+              <div class="row">
+                <div class="col-6 pr-1">
+                  <div class="d-flex h-100 align-items-end">
+                    <h5 class="mb-0">총 참여 보상금 </h5>
+                  </div>
+                </div>
+                <div class="col-6 text-right pl-1">
+                  <h5 class="mb-0">
+                    <animated-number
+                      :value="sumUserRewards"
+                      :round="1"
+                      :formatValue="$Utils.numberWithComma"
+                      :duration="500"/>&nbsp;
+                      <small>원</small>
+                  </h5>
                 </div>
               </div>
-              <div class="col-6 text-right">
-                <h4 class="mb-0">
-                  <animated-number
-                    :value="userSuccessCnt * userProfile.daily_reward_amt"
-                    :round="1"
-                    :formatValue="$Utils.numberWithComma"
-                    :duration="500"/>
-                </h4>
-              </div>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -108,12 +111,12 @@ export default {
     return {      
       dailyAttainList: null,      
       navbarHeight: 0,
-      userSuccessCnt: null,      
+      sumUserRewards: null,      
     }
   },
   created() {
     this.init()
-    this.loadUserSuccessCount()    
+    this.loadUserRewards()    
   },
   mounted() {
     this.$nextTick(()=>{      
@@ -144,9 +147,13 @@ export default {
       
       return dateList.reverse()
     },
-    async loadUserSuccessCount() {
-      let response = await this.$Api.get('/api/users/nos')         
-      this.userSuccessCnt = response.success_cnt      
+    async loadUserRewards() {
+      let response = await this.$Api.get('/api/users/rewards')         
+      const rewards = response.rewards
+      this.sumUserRewards = Object.keys(rewards).reduce((acc, item)=>{
+        acc += rewards[item]
+        return acc
+      }, 0)
     },
     async loadDailyAttainRows(dates) {
       const reqParams = {

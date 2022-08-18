@@ -7,7 +7,7 @@
             <button type="button" class="btn text-left text-white" @click="$router.go(-1)">
               <i class="mdi mdi-arrow-left"></i>
               <span class="ml-3">
-                참여 보상목록
+                참여 보상내역
               </span>
             </button>
           </div>
@@ -21,11 +21,25 @@
           <i class="mdi mdi-loading mdi-spin"></i>
         </div>
         <div v-else>
+          <div class="pt-3 pb-5 text-center">
+            <h4> 
+              <i class="mdi mdi-trophy"></i>
+              총 참여 보상금
+              <animated-number
+                :value="sumRewardAmt"
+                :round="1"
+                :formatValue="$Utils.numberWithComma"
+                :duration="500"/>
+              <small>원</small>
+            </h4>
+          </div>
           <div class="row mb-2">
             <label class="col-6 col-form-label">
-              일일데이터 입력보상
+              <i class="mdi mdi-rhombus-medium"></i>
+              일일 데이터 성공보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.daily_reward"
                 :round="1"
@@ -35,9 +49,11 @@
           </div>
           <div class="row mb-2">
             <label class="col-6 col-form-label">
+              <i class="mdi mdi-rhombus-medium"></i>
               1차 검진 참여보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.first_ex_reward"
                 :round="1"
@@ -47,9 +63,11 @@
           </div>
           <div class="row mb-2">
             <label class="col-6 col-form-label">
+              <i class="mdi mdi-rhombus-medium"></i>
               2차 검진 참여보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.sec_ex_reward"
                 :round="1"
@@ -59,9 +77,11 @@
           </div>
           <div class="row mb-2">
             <label class="col-6 col-form-label">
+              <i class="mdi mdi-rhombus-medium"></i>
               8월 개근 보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.month8_reward"
                 :round="1"
@@ -71,9 +91,11 @@
           </div>
           <div class="row mb-2">
             <label class="col-6 col-form-label">
+              <i class="mdi mdi-rhombus-medium"></i>
               9월 개근 보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.month9_reward"
                 :round="1"
@@ -83,9 +105,11 @@
           </div>
           <div class="row mb-2">
             <label class="col-6 col-form-label">
+              <i class="mdi mdi-rhombus-medium"></i>
               10월 개근 보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.month10_reward"
                 :round="1"
@@ -95,30 +119,18 @@
           </div>
           <div class="row mb-5">
             <label class="col-6 col-form-label">
-              달성율 80% 돌파 보상
+              <i class="mdi mdi-rhombus-medium"></i>
+              달성율 80% 달성 보상
             </label>
             <div class="col-6 text-right col-form-label">
+              <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.more80_reward"
                 :round="1"
                 :formatValue="$Utils.numberWithComma"
                 :duration="500"/> <small>원</small>
             </div>
-          </div>
-          <div class="row mb-5">
-            <div class="col-6">
-              <h4>총 누적 보상금</h4>
-            </div>
-            <div class="col-6 text-right">
-              <h4>
-                <animated-number
-                :value="sumRewardAmt"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-              </h4>
-            </div>
-          </div>
+          </div>          
         </div>
       </div>
     </div>
