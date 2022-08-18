@@ -14,7 +14,7 @@
           <div class="modal-footer d-block">
             <div class="row">
               <div class="col-md-4 ml-auto mr-auto">
-                <button type="button" class="btn btn-sm btn-block text-success" @click="$emit('on-confirm')">
+                <button type="button" class="btn btn-sm btn-block" @click="$emit('on-confirm')">
                   <i class="mdi mdi-check"></i> <strong>확인</strong>
                 </button>
               </div>
