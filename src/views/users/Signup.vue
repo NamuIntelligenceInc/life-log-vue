@@ -189,7 +189,7 @@
       </div>
     </div>
     <confirm-modal v-if="saveData" :msg="'입력하신 정보대로<br>회원가입을 진행하시겠습니까?'" @on-close="saveData=null" @on-confirm="onClickSaveConfirm"/>
-    <alert-modal v-if="errorMsg" :msg="`<span class='text-danger'>${errorMsg}</span>`" @on-confirm="errorMsg = null"/>
+    <alert-modal v-if="errorMsg" :msg="`<span class='text-danger'><i class='mdi mdi-information'></i>${errorMsg}</span>`" @on-confirm="errorMsg = null"/>
   </div>
 </template>
 <script>
@@ -290,8 +290,10 @@ export default {
       this.isSaving = false
       if(!response.success){
         this.errorMsg = response.message
+      }else{
+        this.$router.push({path: '/signup/complete', query: {name: reqBody.name}})
       }
-      this.$router.push({path: '/signup/complete', query: {name: reqBody.name}})
+      
     },
     ymdToDate(inputDate) {
       if(inputDate.length != 8) return null
