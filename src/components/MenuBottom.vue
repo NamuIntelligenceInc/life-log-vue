@@ -19,6 +19,9 @@
               <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/mypage')">
                 <i class="mdi mdi-account-circle-outline"></i> 마이페이지
               </a>
+              <a href="javascript:;" class="list-group-item list-group-item-action pl-5 text-left" @click="onClickMove('/mypage/rewards')">
+                <i class="mdi mdi-trophy-outline"></i> 참여 보상내역
+              </a>
               <a target="_blank" :href="$Constants.KakaoChatLink" class="list-group-item list-group-item-action pl-5 text-left">
                 <i class="mdi mdi-chat-processing-outline"></i> 고객센터( 카카오톡 )
               </a>
