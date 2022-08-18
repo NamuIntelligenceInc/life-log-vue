@@ -12,6 +12,7 @@ import FoodAddPage from '@/views/food/Add.vue'
 import FoodSearchPage from '@/views/food/Search.vue'
 import FoodBookmarkPage from '@/views/food/Bookmark.vue'
 import MypageIndexPage from '@/views/mypage/Index.vue'
+import MypageRewardsPage from '@/views/mypage/Rewards.vue'
 import InfoIndexPage from '@/views/info/Index.vue'
 import AuthenticatePage from '@/views/Authenticate.vue'
 import HelpIndexPage from '@/views/help/Index.vue'
@@ -136,6 +137,12 @@ const routes = [
     path: '/mypage',
     name: 'MypageIndex',
     component: MypageIndexPage,
+    beforeEnter: userAuthenticate
+  },
+  {
+    path: '/mypage/rewards',
+    name: 'MypageRewards',
+    component: MypageRewardsPage,
     beforeEnter: userAuthenticate
   },
   {
