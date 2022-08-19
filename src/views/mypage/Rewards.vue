@@ -34,11 +34,11 @@
             </h4>
           </div>
           <div class="row mb-2">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               일일 데이터 성공보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.daily_reward"
@@ -48,11 +48,11 @@
             </div>
           </div>
           <div class="row mb-2">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               1차 검진 참여보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.first_ex_reward"
@@ -62,11 +62,11 @@
             </div>
           </div>
           <div class="row mb-2">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               2차 검진 참여보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.sec_ex_reward"
@@ -76,11 +76,11 @@
             </div>
           </div>
           <div class="row mb-2">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               8월 개근 보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.month8_reward"
@@ -90,11 +90,11 @@
             </div>
           </div>
           <div class="row mb-2">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               9월 개근 보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.month9_reward"
@@ -104,11 +104,11 @@
             </div>
           </div>
           <div class="row mb-2">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               10월 개근 보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.month10_reward"
@@ -118,11 +118,11 @@
             </div>
           </div>
           <div class="row mb-5">
-            <label class="col-6 col-form-label">
+            <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
               달성율 80% 달성 보상
             </label>
-            <div class="col-6 text-right col-form-label">
+            <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
                 :value="rewards.more80_reward"
