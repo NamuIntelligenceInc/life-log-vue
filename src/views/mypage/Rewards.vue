@@ -22,7 +22,7 @@
         </div>
         <div v-else>
           <div class="pt-3 pb-5 text-center">
-            <h4> 
+            <h5> 
               <i class="mdi mdi-trophy"></i>
               총 참여 보상금
               <animated-number
@@ -30,102 +30,18 @@
                 :round="1"
                 :formatValue="$Utils.numberWithComma"
                 :duration="500"/>
-              <small>원</small>
-            </h4>
+              &nbsp;<small>원</small>
+            </h5>
           </div>
-          <div class="row mb-2">
+          <div class="row mb-2" v-for="(value, key) in rewards" :key="key">
             <label class="col-7 col-form-label pr-0">
               <i class="mdi mdi-rhombus-medium"></i>
-              일일 데이터 성공보상
+              {{ key }}
             </label>
             <div class="col-5 text-right col-form-label pl-0">
               <i class="mdi mdi-plus"></i>
               <animated-number
-                :value="rewards.daily_reward"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label class="col-7 col-form-label pr-0">
-              <i class="mdi mdi-rhombus-medium"></i>
-              1차 검진 참여보상
-            </label>
-            <div class="col-5 text-right col-form-label pl-0">
-              <i class="mdi mdi-plus"></i>
-              <animated-number
-                :value="rewards.first_ex_reward"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label class="col-7 col-form-label pr-0">
-              <i class="mdi mdi-rhombus-medium"></i>
-              2차 검진 참여보상
-            </label>
-            <div class="col-5 text-right col-form-label pl-0">
-              <i class="mdi mdi-plus"></i>
-              <animated-number
-                :value="rewards.sec_ex_reward"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label class="col-7 col-form-label pr-0">
-              <i class="mdi mdi-rhombus-medium"></i>
-              8월 개근 보상
-            </label>
-            <div class="col-5 text-right col-form-label pl-0">
-              <i class="mdi mdi-plus"></i>
-              <animated-number
-                :value="rewards.month8_reward"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label class="col-7 col-form-label pr-0">
-              <i class="mdi mdi-rhombus-medium"></i>
-              9월 개근 보상
-            </label>
-            <div class="col-5 text-right col-form-label pl-0">
-              <i class="mdi mdi-plus"></i>
-              <animated-number
-                :value="rewards.month9_reward"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <label class="col-7 col-form-label pr-0">
-              <i class="mdi mdi-rhombus-medium"></i>
-              10월 개근 보상
-            </label>
-            <div class="col-5 text-right col-form-label pl-0">
-              <i class="mdi mdi-plus"></i>
-              <animated-number
-                :value="rewards.month10_reward"
-                :round="1"
-                :formatValue="$Utils.numberWithComma"
-                :duration="500"/> <small>원</small>
-            </div>
-          </div>
-          <div class="row mb-5">
-            <label class="col-7 col-form-label pr-0">
-              <i class="mdi mdi-rhombus-medium"></i>
-              달성율 80% 달성 보상
-            </label>
-            <div class="col-5 text-right col-form-label pl-0">
-              <i class="mdi mdi-plus"></i>
-              <animated-number
-                :value="rewards.more80_reward"
+                :value="value"
                 :round="1"
                 :formatValue="$Utils.numberWithComma"
                 :duration="500"/> <small>원</small>
@@ -146,16 +62,31 @@ export default {
   },
   data() {
     return {
+      LabelMap: {
+        'daily_reward': '일일 데이터 성공보상',
+        'first_ex_reward': '1차 검진 참여보상',
+        'sec_ex_reward': '2차 검진 참여보상',
+        'month8_reward': '8월 개근 보상',
+        'month9_reward': '9월 개근 보상',
+        'month10_reward': '10월 개근 보상',
+        'more80_reward': '달성율 80% 달성 보상',        
+      },
       rewards: null
     }
   },
   created() {        
-    this.loadUserRewards()
+    this.loadUserRewards()    
   },
   methods: {
     async loadUserRewards() {
       let response = await this.$Api.get('/api/users/rewards')      
-      this.rewards = response.rewards
+      let rewards = response.rewards          
+      rewards = Object.keys(rewards).reduce((acc, item)=>{
+        const key = this.LabelMap[item]        
+        acc[key] = rewards[item]
+        return acc
+      }, {})
+      this.rewards = rewards      
     }
   },
   computed: {
