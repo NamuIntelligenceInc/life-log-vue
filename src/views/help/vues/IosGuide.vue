@@ -4,7 +4,8 @@
       <div class="col-md-6 ml-auto mr-auto">
         <div class="mb-3">
           <div class="mb-3">
-            <strong>홈화면으로 이동</strong>한 뒤 그림과 같은 순서대로 버튼을 터치해 주세요
+            1. 아이디 비번 입력 후 로그인.
+            <br>2. 홈화면에서 새로고침 버튼 클릭 후 그림과 같이 진행해 주세요.
           </div>
           <img class="w-100 mb-3" src="/images/ios_01.png"/>
           <img class="w-100 mb-3" src="/images/ios_02.png"/>
