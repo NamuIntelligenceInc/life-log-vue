@@ -69,7 +69,7 @@
       </div>      
     </div>    
     <div v-else class="card-body pt-1">
-      <div v-if="payload.past_day_cnt < 3">
+      <div v-if="payload.past_day_cnt < $Constants.EditableLimitDay">
         <div class="row mb-3">
           <div class="col-3">
             <div class="d-flex h-100 align-items-center">

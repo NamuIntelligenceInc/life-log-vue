@@ -5,7 +5,8 @@ const Coordinators = {
   '이진옥': '01098172711',
 }
 
-export default {  
+export default {
+  EditableLimitDay: 3,  
   SelectedFoodsLimit: 5,
   HRALink: 'https://namuintelligence.surveysparrow.com/s/HRA---3/tt-1d4d6eda94',
   KakaoChatLink: 'http://pf.kakao.com/_xilxoDb/chat',
