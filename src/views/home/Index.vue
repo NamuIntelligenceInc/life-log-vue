@@ -26,7 +26,7 @@
         <div class="col-md-6 ml-auto mr-auto p-0">
           <router-link class="btn btn-block btn-link text-white text-left" :to="'/notice'">
             <i class="mdi mdi-information"></i>
-            8월 5일 공지사항 입니다 <i class="mdi mdi-hand-pointing-left"></i> 클릭
+            9월 8일 공지사항 입니다 <i class="mdi mdi-hand-pointing-left"></i> 클릭
           </router-link>
           <div class="p-3 text-white" v-if="userProfile">
             <div class="mb-2">미션 종료까지 <strong>{{ remainDays }}</strong>일 남았습니다</div>
@@ -177,7 +177,7 @@ export default {
         acc[item] = dataMap[item] || emptyObj
         const diffNum = Math.abs(this.$Utils.diffDays(new Date(item), new Date()))
         acc[item].past_day_cnt = diffNum
-        acc[item].is_disable_day = (diffNum >= 3)
+        acc[item].is_disable_day = (diffNum >= this.$Constants.EditableLimitDay)
         return acc
       }, {})      
     },    

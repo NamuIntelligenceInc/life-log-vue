@@ -21,8 +21,16 @@
     </nav>
     <div class="pt-3 pb-5"></div>
     <div class="container pt-3 pb-3">
-      <div class="col-md-6 ml-auto mr-auto p-0">        
-        <div class="card mb-3" v-for="(item, index) of noticeList" :key="index">
+      <div class="col-md-6 ml-auto mr-auto p-0">    
+        <h5 class="mb-5">데이터 입력기한변경 안내</h5>    
+        <p class="mb-3">추석 이후 데이터 입력 기한이 변경됩니다. (9/14 (수) 부터)</p>
+        <p class="mb-3">많은 분들이 성실히 데이터 입력해 주셔서 감사합니다. 중간 점검으로 데이터 현황을 살펴보니 드물지 만 아래와 같은 상황이 확인됩니다.</p>
+        <p class="mb-1">- 사례금 적립을 목적으로 동일 데이터 반복 입력</p>
+        <p class="mb-3">- 며칠 치 데이터를 소급하여 한꺼번에 입력(기억에 의존한 하루 전 데이터도 부정확한 경우가 많음)</p>
+        <p class="mb-3">이상과 같은 사유로 데이터 신뢰성 향상을 위해 입력 기한을 아래와 같이 변경합니다.</p>
+        <p class="mb-3">- 9/14(수) 부터 "기준일 이후 2일전(그제)까지" 에서 "기준일 이후 1일전(어제) 까지"로 변경합니다.</p>
+        <p class="mb-3">이용에 착오없으시기 바랍니다. 행복한 추석되세요.</p>
+        <!-- <div class="card mb-3" v-for="(item, index) of noticeList" :key="index">
           <div class="card-header bg-white no-border">
             <button type="button" class="btn btn-block pl-0 pr-0 text-left" @click="item.is_open = !item.is_open">              
               <div class="row">
@@ -51,7 +59,7 @@
               </small>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
