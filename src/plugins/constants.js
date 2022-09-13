@@ -6,7 +6,7 @@ const Coordinators = {
 }
 
 export default {
-  EditableLimitDay: 3,  
+  EditableLimitDay: 2,  
   SelectedFoodsLimit: 5,
   HRALink: 'https://namuintelligence.surveysparrow.com/s/HRA---3/tt-1d4d6eda94',
   KakaoChatLink: 'http://pf.kakao.com/_xilxoDb/chat',
