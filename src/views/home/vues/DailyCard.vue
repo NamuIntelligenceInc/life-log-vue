@@ -2,13 +2,15 @@
   <div class="card mb-2" :class="{'success': payload.success}">
     <div class="card-header no-border">
       <div class="row">
-        <div class="col-7 text-left pr-1">          
-          <strong>{{ parsedDate.month }}</strong><small>월 </small>
-          <strong>{{ parsedDate.date }}</strong><small>일</small>
+        <div class="col-7 text-left pr-1">
+          <span style="font-size: 1.5rem;">          
+            <strong>{{ parsedDate.month }}</strong><small>월 </small>
+            <strong>{{ parsedDate.date }}</strong><small>일</small>
+          </span>
           ( {{ parsedDate.dow }} )
           <span v-if="diffDayBadge" v-html="diffDayBadge"></span>
         </div>
-        <div class="col-5 text-right pl-1">          
+        <div class="col-5 text-right pl-1 pt-2">
           <span class="badge badge-success badge-rounded" v-if="currCardState == CardState.InProgress">
             진행중
           </span>
