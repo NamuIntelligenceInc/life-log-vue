@@ -66,9 +66,9 @@ export default {
         'daily_reward': '일일 데이터 성공보상',
         'first_ex_reward': '1차 검진 참여보상',
         'sec_ex_reward': '2차 검진 참여보상',
-        'month8_reward': '8월 개근 보상',
-        'month9_reward': '9월 개근 보상',
-        'month10_reward': '10월 개근 보상',
+        'month8_reward': '1차 개근 보상',
+        'month9_reward': '2차 개근 보상',
+        'month10_reward': '3차 개근 보상',
         'more80_reward': '달성율 80% 달성 보상',        
       },
       rewards: null
