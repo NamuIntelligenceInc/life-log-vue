@@ -22,14 +22,7 @@ const createInstance = () => {
       return response.data
     },
     (err)=>{
-      window.location.href = `/error/${err.response.status}`
-      // if(err.response && err.response.status == 401){
-      //   const redirect = `${window.location.pathname}${window.location.search}`
-      //   window.location.href = `/signin?redirect=${redirect}`
-      // }else{        
-      //   alert('시스템 오류가 발생하였습니다.\n관리자에게 문의하세요.')
-      //   return Promise.resolve(null)
-      // }
+      window.location.href = `/error/${err.response.status}`      
     }
   )
 
