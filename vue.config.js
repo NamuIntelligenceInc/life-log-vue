@@ -7,9 +7,10 @@ const buildConfig = () => {
 }
 
 let vueConfig = {
+  publicPath: process.env.VUE_APP_PUBLIC_PATH || '/' , // Use environment variable or default to '/'
   configureWebpack: {
     output: {
-      filename: `app-${new Date().getTime()}.js`
+      filename: `app-${new Date().getTime()}.js`,
     },
   },
   css: {
