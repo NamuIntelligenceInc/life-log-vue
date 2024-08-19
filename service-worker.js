@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.74d2c4c1b145b2a8c4edea58e2cfd932.js"
+  "/precache-manifest.5bcce3561b5b7466a6b290f919dd4869.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "life-log-vue"});
