@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f43ac58848c2d3adeb8b",
-    "url": "/app-1724057015892.js"
+    "revision": "0f1aed368d4323bdf312",
+    "url": "/app-1724057844107.js"
   },
   {
-    "revision": "f43ac58848c2d3adeb8b",
+    "revision": "0f1aed368d4323bdf312",
     "url": "/css/app.af7310cb.css"
   },
   {
@@ -164,7 +164,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/images/zepplife.webp"
   },
   {
-    "revision": "26ab9d1c69cebf19c08ec92b8769c7ec",
+    "revision": "9835e20d6ba39c83d07fb26c6aa12afb",
     "url": "/index.html"
   },
   {
