@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "page": "vue-cli-service build --dest ./docs"
+    "page": "vue-cli-service build --dest ./build"
   },
   "dependencies": {
     "animated-number-vue": "^1.0.0",
