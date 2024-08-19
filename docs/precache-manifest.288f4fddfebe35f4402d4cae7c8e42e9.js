@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7ee71529e89a342eebe0",
-    "url": "/life-log-vue/app-1724062504916.js"
+    "revision": "5a0e3eabced398a723ab",
+    "url": "/life-log-vue/app-1724063110675.js"
   },
   {
-    "revision": "7ee71529e89a342eebe0",
+    "revision": "5a0e3eabced398a723ab",
     "url": "/life-log-vue/css/app.af7310cb.css"
   },
   {
@@ -164,7 +164,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/life-log-vue/images/zepplife.webp"
   },
   {
-    "revision": "824948a47078127c364931fc22a57a83",
+    "revision": "001bbddb74b74190934929e2c9316653",
     "url": "/life-log-vue/index.html"
   },
   {
