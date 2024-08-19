@@ -7,7 +7,6 @@ const buildConfig = () => {
 }
 
 let vueConfig = {
-  publicPath: process.env.VUE_APP_PUBLIC_PATH || '/' , // Use environment variable or default to '/'
   configureWebpack: {
     output: {
       filename: `app-${new Date().getTime()}.js`,
@@ -29,7 +28,10 @@ let vueConfig = {
         target: 'http://localhost:3000'
       },      
     }
-  }  
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+  ? '/life-log-vue/'  // GitHub Pages의 리포지토리 이름에 맞게 설정
+  : '/'
 }
 vueConfig = Object.assign(vueConfig, buildConfig())
 module.exports = vueConfig
